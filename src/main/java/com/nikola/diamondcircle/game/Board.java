@@ -7,27 +7,27 @@ import java.util.List;
 import java.util.Random;
 
 public class Board {
-    public static int boardSize;
-    public static Integer finalPosition;
+    public  int boardSize;
+    public  Integer finalPosition;
     private final Integer HOLE_COUNT = 10;
     private final List<Position> validPositions;
 
     private int maxHeight, minHeight, maxWidth, minWidth;
-    private List<Integer> holeFields;
-    private List<Integer> diamondFields;
-    private List<Integer> figureFields;
+    private List<Integer> holePositions;
+    private List<Integer> diamondPositions;
+    private List<Integer> playerPositions;
 
     public Board(int size) {
         if (size >= 7 && size <= 10) {
             validPositions = new ArrayList<>();
-            Board.boardSize = size;
+            boardSize = size;
             minHeight = 0;
             maxHeight = size - 1;
             minWidth = 0;
             maxWidth = size - 1;
-            diamondFields = new ArrayList<>();
-            holeFields = new ArrayList<>();
-            figureFields = new ArrayList<>();
+            diamondPositions = new ArrayList<>();
+            holePositions = new ArrayList<>();
+            playerPositions = new ArrayList<>();
             generateValidPositions();
             finalPosition = validPositions.size() - 1;
 
@@ -36,28 +36,28 @@ public class Board {
         }
     }
 
-    public static int getBoardSize() {
+    public  int getBoardSize() {
         return boardSize;
     }
 
-    public List<Integer> getDiamondFields() {
-        return diamondFields;
+    public List<Integer> getDiamondPositions() {
+        return diamondPositions;
     }
 
     public List<Position> getValidPositions() {
         return validPositions;
     }
 
-    public List<Integer> getHoleFields() {
-        return holeFields;
+    public List<Integer> getHolePositions() {
+        return holePositions;
     }
 
-    public List<Integer> getFigureFields() {
-        return figureFields;
+    public List<Integer> getPlayerPositions() {
+        return playerPositions;
     }
 
-    public void setFigureFields(List<Integer> figureFields) {
-        this.figureFields = figureFields;
+    public void setPlayerPositions(List<Integer> playerPositions) {
+        this.playerPositions = playerPositions;
     }
 
     private void generateValidPositions() {
@@ -137,15 +137,36 @@ public class Board {
     }
 
     public void setDiamonds(List<Integer> diamonds) {
-        diamondFields = diamonds;
+        diamondPositions = diamonds;
     }
 
 
     public synchronized void setHoles() {
-        holeFields = new ArrayList<>();
+        holePositions = new ArrayList<>();
         for (int i = 0; i < HOLE_COUNT; ++i) {
-            holeFields.add(new Random().nextInt(validPositions.size()));
+            holePositions.add(new Random().nextInt(validPositions.size()));
         }
+    }
+
+    public GameObject getObjectAtPosition(int position){
+        try {
+            if(position >= 0 && position <= finalPosition){
+                if(playerPositions.contains(position)){
+                    return GameObject.FIGURE;
+                } else if (diamondPositions.contains(position)) {
+                    return GameObject.COIN;
+                } else if (holePositions.contains(position)) {
+                    return GameObject.HOLE;
+                }else{
+                    return GameObject.EMPTY;
+                }
+            }else{
+                throw new IndexOutOfBoundsException("Position not valid");
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
 

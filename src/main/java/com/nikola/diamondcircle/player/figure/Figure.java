@@ -1,5 +1,7 @@
 package com.nikola.diamondcircle.player.figure;
 
+import com.nikola.diamondcircle.game.GameObject;
+
 public abstract class Figure {
     private Boolean alive;
     private Boolean finished;
@@ -57,5 +59,7 @@ public abstract class Figure {
     public abstract String getTexturePath();
 
     public abstract void move(Integer steps);
+
+    public abstract void interact(GameObject gameObject);
 
 }

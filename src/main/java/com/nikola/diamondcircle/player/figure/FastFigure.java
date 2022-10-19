@@ -2,15 +2,16 @@ package com.nikola.diamondcircle.player.figure;
 
 import com.nikola.diamondcircle.game.GameObject;
 
-public class RegularFigure extends Figure{
+public class FastFigure extends Figure{
     @Override
     public String getTexturePath() {
-        return "com/nikola/diamondcircle/assets/figures/regular.png";
+        return "com/nikola/diamondcircle/assets/figures/flying.png";
+
     }
 
     @Override
     public void move(Integer steps) {
-        int distance = diamondCount + steps;
+        int distance = diamondCount + steps * 2;
         currentPosition += distance;
         if(currentPosition >= maxPosition){
             setFinished(true);
