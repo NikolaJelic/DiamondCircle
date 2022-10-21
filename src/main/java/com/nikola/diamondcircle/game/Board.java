@@ -7,11 +7,10 @@ import java.util.List;
 import java.util.Random;
 
 public class Board {
-    public  int boardSize;
     public static Integer finalPosition;
     private final Integer HOLE_COUNT = 10;
     private final List<Position> validPositions;
-
+    public int boardSize;
     private int maxHeight, minHeight, maxWidth, minWidth;
     private List<Integer> holePositions;
     private List<Integer> diamondPositions;
@@ -36,7 +35,7 @@ public class Board {
         }
     }
 
-    public  int getBoardSize() {
+    public int getBoardSize() {
         return boardSize;
     }
 
@@ -136,8 +135,11 @@ public class Board {
         return new Position(currentPosition.getX(), currentPosition.getY());
     }
 
-    public void setDiamonds(List<Integer> diamonds) {
-        diamondPositions = diamonds;
+    public synchronized void setDiamondPositions() {
+        diamondPositions = new ArrayList<>();
+        for (int i = 0; i < new Random().nextInt(boardSize - 2) + 2; ++i) {
+            diamondPositions.add(new Random().nextInt(validPositions.size()));
+        }
     }
 
 
@@ -149,24 +151,23 @@ public class Board {
     }
 
 
-
-    public GameObject getObjectAtPosition(int position){
+    public GameObject getObjectAtPosition(int position) {
         try {
-            if(position >= 0 && position <= finalPosition){
-                if(playerPositions.contains(position)){
+            if (position >= 0 && position <= finalPosition) {
+                if (playerPositions.contains(position)) {
                     return GameObject.FIGURE;
                 } else if (diamondPositions.contains(position)) {
                     diamondPositions.remove(position); //picked up
                     return GameObject.COIN;
                 } else if (holePositions.contains(position)) {
                     return GameObject.HOLE;
-                }else{
+                } else {
                     return GameObject.EMPTY;
                 }
-            }else{
+            } else {
                 throw new IndexOutOfBoundsException("Position not valid");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return null;
