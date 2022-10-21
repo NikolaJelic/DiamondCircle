@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class Board {
     public  int boardSize;
-    public  Integer finalPosition;
+    public static Integer finalPosition;
     private final Integer HOLE_COUNT = 10;
     private final List<Position> validPositions;
 
@@ -148,12 +148,15 @@ public class Board {
         }
     }
 
+
+
     public GameObject getObjectAtPosition(int position){
         try {
             if(position >= 0 && position <= finalPosition){
                 if(playerPositions.contains(position)){
                     return GameObject.FIGURE;
                 } else if (diamondPositions.contains(position)) {
+                    diamondPositions.remove(position); //picked up
                     return GameObject.COIN;
                 } else if (holePositions.contains(position)) {
                     return GameObject.HOLE;

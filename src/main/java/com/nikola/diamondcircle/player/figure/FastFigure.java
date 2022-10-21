@@ -3,6 +3,15 @@ package com.nikola.diamondcircle.player.figure;
 import com.nikola.diamondcircle.game.GameObject;
 
 public class FastFigure extends Figure{
+
+    public FastFigure(){
+        super();
+    }
+
+    public FastFigure(Integer maxPosition){
+        super(maxPosition);
+    }
+
     @Override
     public String getTexturePath() {
         return "com/nikola/diamondcircle/assets/figures/flying.png";

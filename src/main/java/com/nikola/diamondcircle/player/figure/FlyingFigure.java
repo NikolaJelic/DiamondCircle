@@ -8,6 +8,14 @@ public class FlyingFigure extends Figure{
         return "com/nikola/diamondcircle/assets/figures/flying.png";
     }
 
+    public FlyingFigure(){
+        super();
+    }
+
+    public FlyingFigure(Integer maxPosition){
+        super(maxPosition);
+    }
+
     @Override
     public void move(Integer steps) {
         int distance = diamondCount + steps;

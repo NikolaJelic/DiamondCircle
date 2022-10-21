@@ -3,10 +3,18 @@ package com.nikola.diamondcircle.player.figure;
 import com.nikola.diamondcircle.game.GameObject;
 
 public class RegularFigure extends Figure{
+    public RegularFigure(){
+        super();
+    }
+
+    public RegularFigure(Integer maxPosition){
+        super(maxPosition);
+    }
     @Override
     public String getTexturePath() {
         return "com/nikola/diamondcircle/assets/figures/regular.png";
     }
+
 
     @Override
     public void move(Integer steps) {
