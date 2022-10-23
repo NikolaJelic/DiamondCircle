@@ -1,6 +1,7 @@
 package com.nikola.diamondcircle.player.figure;
 
 import com.nikola.diamondcircle.game.GameObject;
+import com.nikola.diamondcircle.utils.Color;
 
 public class FlyingFigure extends Figure{
     @Override
@@ -8,12 +9,8 @@ public class FlyingFigure extends Figure{
         return "com/nikola/diamondcircle/assets/figures/flying.png";
     }
 
-    public FlyingFigure(){
-        super();
-    }
-
-    public FlyingFigure(Integer maxPosition){
-        super(maxPosition);
+    public FlyingFigure(Integer maxPosition, Color color){
+        super(maxPosition, color);
     }
 
     @Override
@@ -31,5 +28,10 @@ public class FlyingFigure extends Figure{
             case FIGURE -> incrementCurrentPosition();
             case COIN -> diamondCount++;
         }
+    }
+
+    @Override
+    protected String getType() {
+        return "flying";
     }
 }

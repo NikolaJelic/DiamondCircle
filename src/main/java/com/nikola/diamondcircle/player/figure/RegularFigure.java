@@ -1,14 +1,12 @@
 package com.nikola.diamondcircle.player.figure;
 
 import com.nikola.diamondcircle.game.GameObject;
+import com.nikola.diamondcircle.utils.Color;
 
 public class RegularFigure extends Figure{
-    public RegularFigure(){
-        super();
-    }
 
-    public RegularFigure(Integer maxPosition){
-        super(maxPosition);
+    public RegularFigure(Integer maxPosition, Color color){
+        super(maxPosition, color);
     }
     @Override
     public String getTexturePath() {
@@ -32,5 +30,10 @@ public class RegularFigure extends Figure{
             case FIGURE -> incrementCurrentPosition();
             case COIN -> diamondCount++;
         }
+    }
+
+    @Override
+    protected String getType() {
+        return "regular";
     }
 }

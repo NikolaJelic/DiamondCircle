@@ -1,27 +1,33 @@
 package com.nikola.diamondcircle.player.figure;
 
 import com.nikola.diamondcircle.game.GameObject;
+import com.nikola.diamondcircle.utils.Color;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Figure {
     private Boolean alive;
+    private static Integer counter = 1;
+    protected String figureName;
     private Boolean finished;
     protected Integer currentPosition;
     protected Integer diamondCount;
     protected Integer maxPosition;
 
-    protected Figure() {
-        this.currentPosition = 0;
-        diamondCount = 0;
-        alive = true;
-        maxPosition =0;
-    }
+    protected  Color color;
+    protected List<Integer> visitedPositions;
 
-    public Figure(Integer maxPosition){
+    public Figure(Integer maxPosition, Color color) {
         this.maxPosition = maxPosition;
+        this.color = color;
         this.currentPosition = 0;
+        visitedPositions = new ArrayList<>();
+        visitedPositions.add(currentPosition);
         diamondCount = 0;
         alive = true;
-        maxPosition =0;
+        figureName = counter.toString();
+        ++counter;
     }
 
     public Boolean isFinished() {
@@ -45,14 +51,15 @@ public abstract class Figure {
         return currentPosition;
     }
 
-    public void incrementCurrentPosition(){
+    public void incrementCurrentPosition() {
         ++currentPosition;
     }
 
-    public void collectDiamond(){
+    public void collectDiamond() {
         ++diamondCount;
     }
-    public Integer getDiamondCount(){
+
+    public Integer getDiamondCount() {
         return diamondCount;
     }
 
@@ -62,4 +69,17 @@ public abstract class Figure {
 
     public abstract void interact(GameObject gameObject);
 
+    public void addVisitedField(Integer position) {
+        visitedPositions.add(position);
+    }
+
+    public String getFigureName() {
+        return figureName;
+    }
+
+    protected abstract String getType();
+    @Override
+    public String toString() {
+        return "Figure " + figureName + "[" + getType() + ',' + color+ "] | travelled path " + visitedPositions + " finished " + finished;
+    }
 }
