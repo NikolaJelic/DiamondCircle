@@ -14,7 +14,7 @@ public class Game {
     private Deck cards;
 
 
-    Game(Integer boardSize, List<String> playerNames) {
+    public Game(Integer boardSize, List<String> playerNames) {
         currentPlayer = 0;
         cards = new Deck();
         board = new Board(boardSize);

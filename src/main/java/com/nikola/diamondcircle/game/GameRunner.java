@@ -10,13 +10,18 @@ public class GameRunner extends AnimationTimer {
     private Game game;
     private Long elapsedTime;
     private Long startTIme;
-    private  Long pauseOffset;
+    private Long pauseOffset;
 
-    public GameRunner(Integer boardSize, List<String> playerNames) {
-        game = new Game(boardSize, playerNames);
+
+    public GameRunner() {
         this.elapsedTime = 0l;
         this.startTIme = System.nanoTime();
         this.pauseOffset = 0l;
+    }
+
+    public GameRunner(Integer boardSize, List<String> playerNames) {
+        this();
+        game = new Game(boardSize, playerNames);
     }
 
 
@@ -37,5 +42,9 @@ public class GameRunner extends AnimationTimer {
         pauseOffset = elapsedTime;
         super.start();
 
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 }
