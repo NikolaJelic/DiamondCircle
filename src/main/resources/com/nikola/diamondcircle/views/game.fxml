@@ -103,9 +103,8 @@
             </VBox>
          </right>
          <center>
-            <GridPane fx:id="board" maxHeight="400.0" maxWidth="400.0" minHeight="400.0" minWidth="400.0" prefHeight="400.0" prefWidth="400.0" stylesheets="@style.css" BorderPane.alignment="CENTER">
+            <GridPane fx:id="board" maxHeight="400.0" maxWidth="400.0" minHeight="371.0" minWidth="356.0" prefHeight="371.0" prefWidth="356.0" stylesheets="@style.css" BorderPane.alignment="CENTER">
               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

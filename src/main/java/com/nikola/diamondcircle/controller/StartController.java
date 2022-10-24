@@ -34,8 +34,8 @@ public class StartController {
 
     @FXML
     public void initialize() {
-        Font titleFont = Font.loadFont(StartController.class.getResource("/com/nikola/diamondcircle/assets/fonts/DungeonFont.ttf").toExternalForm(), 35);
-        Font font = Font.loadFont(StartController.class.getResource("/com/nikola/diamondcircle/assets/fonts/monogram.ttf").toExternalForm(), 20);
+        Font titleFont = Font.loadFont(String.valueOf(StartController.class.getResource("/com/nikola/diamondcircle/assets/fonts/DungeonFont.ttf")), 35);
+        Font font = Font.loadFont(String.valueOf(StartController.class.getResource("/com/nikola/diamondcircle/assets/fonts/monogram.ttf")), 20);
         titleLabel.setFont(titleFont);
         playerInputField.setFont(font);
         addPlayerButton.setFont(font);
@@ -48,7 +48,7 @@ public class StartController {
     public void addPlayer(ActionEvent actionEvent) {
         try {
             String name = playerInputField.getText();
-            System.out.println(name);
+            System.out.println(name +  " start");
             if (!playerNames.contains(name)) {
                 if (playerNames.size() >= 4) {
                     throw new IndexOutOfBoundsException("Cannot create more than 4 players.");

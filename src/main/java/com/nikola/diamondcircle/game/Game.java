@@ -5,6 +5,7 @@ import com.nikola.diamondcircle.utils.Card;
 import com.nikola.diamondcircle.utils.ColorFactory;
 import com.nikola.diamondcircle.utils.Deck;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
@@ -15,9 +16,11 @@ public class Game {
 
 
     public Game(Integer boardSize, List<String> playerNames) {
+        players = new ArrayList<>();
         currentPlayer = 0;
         cards = new Deck();
         board = new Board(boardSize);
+        System.out.println(Board.finalPosition + "final position");
         for (String name : playerNames) {
             players.add(new Player(ColorFactory.getColor(), name));
         }

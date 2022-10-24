@@ -54,4 +54,12 @@ public class Player {
             System.out.println(e.getMessage());
         }
     }
+
+    public Color getColor(){
+        return color;
+    }
+
+    public List<Figure> getFigures() {
+        return figures;
+    }
 }

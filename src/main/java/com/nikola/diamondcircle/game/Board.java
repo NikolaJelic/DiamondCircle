@@ -19,6 +19,7 @@ public class Board {
     public Board(int size) {
         if (size >= 7 && size <= 10) {
             validPositions = new ArrayList<>();
+
             boardSize = size;
             minHeight = 0;
             maxHeight = size - 1;
@@ -27,12 +28,29 @@ public class Board {
             diamondPositions = new ArrayList<>();
             holePositions = new ArrayList<>();
             playerPositions = new ArrayList<>();
+            finalPosition = getFinalPosition();
             generateValidPositions();
-            finalPosition = validPositions.size() - 1;
-
         } else {
             throw new RuntimeException("Board size not valid!");
         }
+    }
+
+    private Integer getFinalPosition() {
+        switch (boardSize) {
+            case 7 -> {
+                return 24;
+            }
+            case 8 -> {
+                return 39;
+            }
+            case 9 -> {
+                return 40;
+            }
+            case 10 -> {
+                return 59;
+            }
+        }
+        return 0;
     }
 
     public int getBoardSize() {
@@ -64,7 +82,7 @@ public class Board {
             Position currentPosition = new Position(boardSize / 2 - 1, 0);
             validPositions.add(new Position(boardSize / 2 - 1, 0));
 
-            while (!currentPosition.equals(validPositions.get(finalPosition))) {
+            while (validPositions.size() != finalPosition) {
                 currentPosition = moveEven(currentPosition);
                 if (!validPositions.contains(currentPosition))
                     validPositions.add(new Position(currentPosition.getX(), currentPosition.getY()));
@@ -72,7 +90,7 @@ public class Board {
         } else {
             Position currentPosition = new Position(boardSize / 2, 0);
             validPositions.add(new Position(boardSize / 2, 0));
-            while (!currentPosition.equals(validPositions.get(finalPosition))) {
+            while (validPositions.size() != finalPosition) {
                 currentPosition = moveOdd(currentPosition);
                 if (!validPositions.contains(currentPosition))
                     validPositions.add(new Position(currentPosition.getX(), currentPosition.getY()));
