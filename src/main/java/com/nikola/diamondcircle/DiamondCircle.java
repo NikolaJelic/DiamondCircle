@@ -1,7 +1,6 @@
 package com.nikola.diamondcircle;
 
 import com.nikola.diamondcircle.controller.StartController;
-import com.nikola.diamondcircle.game.Game;
 import com.nikola.diamondcircle.game.GameRunner;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

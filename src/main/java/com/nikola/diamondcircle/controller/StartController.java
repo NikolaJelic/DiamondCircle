@@ -42,6 +42,7 @@ public class StartController {
         startButton.setFont(font);
         sizeInput.setFont(font);
         playerNames = new ArrayList<>();
+
     }
 
 
@@ -97,7 +98,6 @@ public class StartController {
         } catch (Exception e) {
             //TODO Handle exception with logger
             System.out.println("Error: " + e.getMessage() + Arrays.toString(e.getStackTrace()));
-
         }
     }
 
