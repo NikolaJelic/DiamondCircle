@@ -11,7 +11,7 @@ public class FastFigure extends Figure{
 
     @Override
     public String getTexturePath() {
-        return "com/nikola/diamondcircle/assets/figures/flying.png";
+        return "com/nikola/diamondcircle/assets/figures/fast.png";
     }
 
     @Override

@@ -53,17 +53,16 @@ public class GameController {
 
     @FXML
     public void initialize() {
-        board = new GridPane();
-        playerList = new ListView<>();
-        currentCard = new ImageView();
-        figureList = new ListView<>();
-        time = new Label("Text");
         try {
-            for (Player player : game.players) {
-                System.out.println(player.getName() + " Name");
-                playerList.getItems().add(new Label(player.getName()));
-            }
+            updateTimer();
             drawPlayers();
+           // drawBoard();
+            drawCard(Card.BACK);
+
+
+            drawFigureList();
+
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -78,7 +77,6 @@ public class GameController {
     }
 
     public void drawPlayers() {
-        playerList = new ListView<>();
         for (Player player : game.players) {
             Label playerLabel = new Label(player.getName());
             playerLabel.setTextFill(web(player.getColor().getColorValue()));
@@ -91,7 +89,7 @@ public class GameController {
             for (var figure : player.getFigures()) {
                 Color figureColor = web(player.getColor().getColorValue());
                 Lighting lightingEffect = new Lighting(new Light.Distant(40, 100, figureColor));
-                ImageView sprite = new ImageView(String.valueOf(getClass().getResource(figure.getTexturePath())));
+                ImageView sprite = new ImageView(figure.getTexturePath());
                 sprite.setEffect(lightingEffect);
                 figureList.getItems().add(sprite);
             }
@@ -101,8 +99,6 @@ public class GameController {
 
     public void drawCard(Card card) {
         try {
-
-            currentCard = new ImageView();
             Image cardImage = new Image(String.valueOf(getClass().getResource(card.getCard())));
             currentCard.setImage(cardImage);
             currentCard.setFitHeight(240);
@@ -124,6 +120,7 @@ public class GameController {
         }
     }
 
+    @FXML
     public void changeRunState() {
 
     }

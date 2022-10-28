@@ -1,6 +1,9 @@
 package com.nikola.diamondcircle.game;
 
+import com.nikola.diamondcircle.controller.GameController;
+import com.nikola.diamondcircle.player.Player;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 
 import java.util.List;
 
@@ -28,6 +31,9 @@ public class GameRunner extends AnimationTimer {
     @Override
     public void handle(long now) {
         elapsedTime = pauseOffset + (now - startTIme) / 100000000;
+        Platform.runLater(() ->{
+
+        });
         game.pickCard();
         try {
             sleep(1000);
