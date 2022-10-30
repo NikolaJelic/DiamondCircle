@@ -3,6 +3,7 @@ package com.nikola.diamondcircle.player.figure;
 import com.nikola.diamondcircle.game.GameObject;
 import com.nikola.diamondcircle.utils.Color;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ public abstract class Figure {
     private Boolean alive;
     private static Integer counter = 1;
     protected String figureName;
+
     private Boolean finished;
     protected Integer currentPosition;
     protected Integer diamondCount;
@@ -31,6 +33,11 @@ public abstract class Figure {
         ++counter;
     }
 
+
+    protected String getPathPrefix(){
+        return "com" + File.separator + "nikola" + File.separator + "diamondcircle" + File.separator + "assets" + File.separator + "figures" + File.separator;
+
+    }
     public boolean isFinished() {
         return finished;
     }

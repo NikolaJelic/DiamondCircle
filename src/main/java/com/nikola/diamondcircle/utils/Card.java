@@ -21,7 +21,6 @@ public enum Card {
     }
 
     public String getCard() {
-        System.out.println(pathPrefix + card);
         return  pathPrefix + card;
     }
 

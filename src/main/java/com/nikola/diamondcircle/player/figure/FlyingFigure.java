@@ -6,7 +6,7 @@ import com.nikola.diamondcircle.utils.Color;
 public class FlyingFigure extends Figure{
     @Override
     public String getTexturePath() {
-        return "com/nikola/diamondcircle/assets/figures/flying.png";
+        return getPathPrefix()+ "flying.png";
     }
 
     public FlyingFigure(Integer maxPosition, Color color){

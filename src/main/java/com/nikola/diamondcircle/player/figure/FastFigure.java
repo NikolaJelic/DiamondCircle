@@ -11,7 +11,7 @@ public class FastFigure extends Figure{
 
     @Override
     public String getTexturePath() {
-        return "com/nikola/diamondcircle/assets/figures/fast.png";
+        return getPathPrefix()+ "fast.png";
     }
 
     @Override

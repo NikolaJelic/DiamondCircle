@@ -12,7 +12,7 @@ public class RegularFigure extends Figure {
     @Override
     public String getTexturePath() {
 
-        return "com/nikola/diamondcircle/assets/figures/regular.png";
+        return getPathPrefix() + "regular.png";
     }
 
 
