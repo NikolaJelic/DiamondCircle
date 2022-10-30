@@ -1,6 +1,7 @@
 module com.nikola.diamondcircle {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.logging;
 
 
     opens com.nikola.diamondcircle to javafx.fxml;

@@ -8,8 +8,27 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.util.logging.*;
+
+import java.io.File;
+
 public class DiamondCircle extends Application {
+    public static final String LOG_PATH = "data" + File.separator + "logs" + File.separator + "game.log";
+    public static final Logger logger;
+    public static final Handler handler;
+    static{
+        try {
+            handler = new FileHandler(LOG_PATH);
+            logger = Logger.getLogger(DiamondCircle.class.getName());
+            logger.addHandler(handler);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
     public static void main(String[] args) {
+
         launch();
     }
 

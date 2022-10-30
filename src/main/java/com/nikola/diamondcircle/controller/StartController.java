@@ -1,5 +1,6 @@
 package com.nikola.diamondcircle.controller;
 
+import com.nikola.diamondcircle.DiamondCircle;
 import com.nikola.diamondcircle.game.Game;
 import com.nikola.diamondcircle.game.GameRunner;
 import javafx.event.ActionEvent;
@@ -17,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class StartController {
     public Label titleLabel;
@@ -58,8 +60,8 @@ public class StartController {
             }
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            //TODO Log exception
+            DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
+
         }
     }
 
@@ -86,8 +88,7 @@ public class StartController {
             gameRunner.start();
             ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
         } catch (Exception e) {
-            //TODO log
-            System.out.println(e.getMessage());
+            DiamondCircle.logger.log(Level.SEVERE, e.fillInStackTrace().toString());
         }
 
     }

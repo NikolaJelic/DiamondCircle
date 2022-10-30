@@ -6,6 +6,8 @@ import java.util.Random;
 
 public class ColorFactory {
 
+    private ColorFactory(){}
+
     private static List<Color> possibleColors = new ArrayList<>(List.of(new Color[]{Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW}));
 
     public static Color getColor() {

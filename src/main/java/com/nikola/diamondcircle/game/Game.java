@@ -47,7 +47,9 @@ public class Game {
         currentPlayer.getCurrentFigure().move(steps);
         currentPlayer.getCurrentFigure().interact(board.getObjectAtPosition(currentPlayer.getCurrentFigure().getCurrentPosition()));
         currentPlayer.getCurrentFigure().addVisitedField(currentPlayer.getCurrentFigure().getCurrentPosition());
+
         System.out.println(currentPlayer.getCurrentFigure().toString() + "at turn " + currentPlayer.getCurrentFigure().getCurrentPosition());
+
         if (!currentPlayer.getCurrentFigure().isAlive() || currentPlayer.getCurrentFigure().isFinished()) {
             currentPlayer.useNextFigure();
         }

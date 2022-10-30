@@ -1,9 +1,11 @@
 package com.nikola.diamondcircle.game;
 
+import com.nikola.diamondcircle.DiamondCircle;
 import com.nikola.diamondcircle.controller.GameController;
 import javafx.application.Platform;
 
 import java.util.List;
+import java.util.logging.Level;
 
 
 public class GameRunner extends Thread {
@@ -40,7 +42,7 @@ public class GameRunner extends Thread {
                 });
                 sleep(1000);
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
             }
         }
 

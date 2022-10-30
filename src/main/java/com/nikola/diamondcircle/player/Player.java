@@ -1,5 +1,6 @@
 package com.nikola.diamondcircle.player;
 
+import com.nikola.diamondcircle.DiamondCircle;
 import com.nikola.diamondcircle.game.Board;
 import com.nikola.diamondcircle.player.figure.Figure;
 import com.nikola.diamondcircle.player.figure.FigureFactory;
@@ -7,6 +8,7 @@ import com.nikola.diamondcircle.utils.Color;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class Player {
     private final Color color;
@@ -17,7 +19,7 @@ public class Player {
 
     public Player(Color color, String name) {
         this.color = color;
-        this.playerData = new String();
+        this.playerData = "";
         this.name = name;
         this.figures = new ArrayList<>();
         FigureFactory figureFactory = new FigureFactory();
@@ -25,8 +27,8 @@ public class Player {
             try {
                 figures.add(figureFactory.getRandomFigure(Board.finalPosition, color));
             } catch (Exception e) {
-                //TODO LOGGER
-                System.out.println(e.getMessage());
+                DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
+
             }
         }
     }
@@ -46,7 +48,7 @@ public class Player {
                 figures.remove(0);
             }
         } catch (NullPointerException e) {
-            System.out.println(e.getMessage());
+            DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
         }
     }
 
@@ -54,7 +56,7 @@ public class Player {
         try {
             return figures.get(0);
         } catch (NullPointerException e) {
-            System.out.println(e.getMessage());
+            DiamondCircle.logger.log(Level.SEVERE, e.fillInStackTrace().toString());
         }
         return null;
     }
@@ -63,7 +65,7 @@ public class Player {
         try {
             playerData = playerData.concat("\n      " + getCurrentFigure().toString());
         } catch (IndexOutOfBoundsException e) {
-            System.out.println(e.getMessage());
+            DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
         }
     }
 
