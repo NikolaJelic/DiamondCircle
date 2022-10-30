@@ -1,9 +1,7 @@
 package com.nikola.diamondcircle.game;
 
-import java.util.concurrent.ScheduledExecutorService;
-
 public class Ghost extends Thread {
-    private Boolean isRunning;
+    private boolean isRunning;
 
     private Board board;
 
@@ -12,6 +10,7 @@ public class Ghost extends Thread {
         isRunning = true;
     }
 
+    @Override
     public void run() {
         synchronized (this) {
             try {
@@ -28,18 +27,18 @@ public class Ghost extends Thread {
         }
     }
 
-    private void awaitCondition() throws InterruptedException {
+    private synchronized void awaitCondition() throws InterruptedException {
         while (!isRunning) {
             wait();
         }
     }
 
-    public void pause() {
+    public synchronized void pause() {
         isRunning = false;
     }
 
-    public void unpause() {
+    public synchronized void unpause() {
         isRunning = true;
-        this.notify();
+        this.notifyAll();
     }
 }

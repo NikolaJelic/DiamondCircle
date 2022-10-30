@@ -18,7 +18,7 @@ public abstract class Figure {
     protected  Color color;
     protected List<Integer> visitedPositions;
 
-    public Figure(Integer maxPosition, Color color) {
+    protected Figure(Integer maxPosition, Color color) {
         this.maxPosition = maxPosition;
         this.color = color;
         this.currentPosition = 0;
@@ -26,11 +26,12 @@ public abstract class Figure {
         visitedPositions.add(currentPosition);
         diamondCount = 0;
         alive = true;
+        finished = false;
         figureName = counter.toString();
         ++counter;
     }
 
-    public Boolean isFinished() {
+    public boolean isFinished() {
         return finished;
     }
 

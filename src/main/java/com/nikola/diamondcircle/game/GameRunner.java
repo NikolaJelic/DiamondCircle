@@ -1,64 +1,83 @@
 package com.nikola.diamondcircle.game;
 
 import com.nikola.diamondcircle.controller.GameController;
-import com.nikola.diamondcircle.player.Player;
-import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 
 import java.util.List;
 
-import static java.lang.Thread.sleep;
 
-public class GameRunner extends AnimationTimer {
+public class GameRunner extends Thread {
+    private static final Object pauseLock = new Object();
+    public static Long elapsedTime = 0L;
+    public static Long startTIme;
+    private static boolean isRunning = true;
+    private static Long pauseOffset = 0L;
     private Game game;
-    private Long elapsedTime;
-    private Long startTIme;
-    private Long pauseOffset;
+    private GameController gameController;
 
-
-    public GameRunner() {
-        this.elapsedTime = 0l;
-        this.startTIme = System.nanoTime();
-        this.pauseOffset = 0l;
-    }
 
     public GameRunner(Integer boardSize, List<String> playerNames) {
         this();
         game = new Game(boardSize, playerNames);
     }
 
+    public GameRunner() {
+    }
+
 
     @Override
-    public void handle(long now) {
-        elapsedTime = pauseOffset + (now - startTIme) / 100000000;
-        Platform.runLater(() ->{
+    public void run() {
+        adjustTime();
+        while (!game.isGameOver()) {
+            try {
+                awaitCondition();
+                elapsedTime = pauseOffset + (System.nanoTime() - startTIme) / 1000000000;
+                Platform.runLater(() -> gameController.updateTimer(elapsedTime.toString()));
+                game.pickCard();
+                Platform.runLater(() -> {
+                    gameController.drawCard(game.getCurrentCard());
+                    gameController.drawBoard();
+                });
+                sleep(1000);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
 
-        });
-        game.pickCard();
-        try {
-            sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+
+    }
+
+    public static void adjustTime() {
+        startTIme = System.nanoTime();
+    }
+
+    private void awaitCondition() throws InterruptedException {
+        synchronized (pauseLock) {
+            while (!isRunning) {
+                pauseLock.wait();
+            }
         }
     }
 
-    @Override
-    public void start() {
-        startTIme = System.nanoTime();
-        pauseOffset = elapsedTime;
-        super.start();
+    public static void changeState() {
+        synchronized (pauseLock) {
+            if (isRunning) {
+                isRunning = false;
+                pauseOffset = elapsedTime;
+            } else {
+                isRunning = true;
+                pauseLock.notifyAll();
+                adjustTime();
+            }
+        }
+    }
 
+    public void setGameController(GameController gameController) {
+        this.gameController = gameController;
     }
 
     public void setGame(Game game) {
         this.game = game;
     }
 
-    public Game getGame() {
-        return game;
-    }
-
-    public String getTime(){
-        return elapsedTime.toString();
-    }
 }

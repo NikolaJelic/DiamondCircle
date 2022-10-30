@@ -3,13 +3,15 @@ package com.nikola.diamondcircle.player.figure;
 import com.nikola.diamondcircle.game.GameObject;
 import com.nikola.diamondcircle.utils.Color;
 
-public class RegularFigure extends Figure{
+public class RegularFigure extends Figure {
 
-    public RegularFigure(Integer maxPosition, Color color){
+    public RegularFigure(Integer maxPosition, Color color) {
         super(maxPosition, color);
     }
+
     @Override
     public String getTexturePath() {
+
         return "com/nikola/diamondcircle/assets/figures/regular.png";
     }
 
@@ -18,14 +20,14 @@ public class RegularFigure extends Figure{
     public void move(Integer steps) {
         int distance = diamondCount + steps;
         currentPosition += distance;
-        if(currentPosition >= maxPosition){
+        if (currentPosition >= maxPosition) {
             setFinished(true);
         }
     }
 
     @Override
     public void interact(GameObject gameObject) {
-        switch (gameObject){
+        switch (gameObject) {
             case HOLE -> setAlive(false);
             case FIGURE -> incrementCurrentPosition();
             case COIN -> diamondCount++;

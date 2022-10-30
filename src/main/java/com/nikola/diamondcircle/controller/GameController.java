@@ -20,6 +20,7 @@ import java.util.Arrays;
 import static javafx.scene.paint.Color.web;
 
 public class GameController {
+    private final Game game;
     @FXML
     public Label gameCountLabel;
     @FXML
@@ -39,41 +40,22 @@ public class GameController {
     @FXML
     public GridPane board;
 
-    private Game game;
-    private GameRunner gameRunner;
-    private Image cardImage;
 
+    public GameController(Game game) {
+        this.game = game;
 
-    public GameController(GameRunner gameRunner) {
-        this.gameRunner = gameRunner;
-        game = gameRunner.getGame();
-        //TODO INIT LISTS, FIX PATHS
     }
 
 
     @FXML
     public void initialize() {
         try {
-            updateTimer();
             drawPlayers();
-           // drawBoard();
             drawCard(Card.BACK);
-
-
             drawFigureList();
-
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        //  drawCard(Card.BACK);
-        // drawFigureList();
-        // drawBoard();
-    }
-
-
-    public void updateTimer() {
-        time.setText(gameRunner.getTime());
     }
 
     public void drawPlayers() {
@@ -81,6 +63,18 @@ public class GameController {
             Label playerLabel = new Label(player.getName());
             playerLabel.setTextFill(web(player.getColor().getColorValue()));
             playerList.getItems().add(playerLabel);
+        }
+    }
+
+    public void drawCard(Card card) {
+        try {
+            Image cardImage = new Image(card.getCard());
+            currentCard.setImage(cardImage);
+            currentCard.setFitHeight(240);
+            currentCard.setPreserveRatio(true);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            //TODO log
         }
     }
 
@@ -97,16 +91,8 @@ public class GameController {
 
     }
 
-    public void drawCard(Card card) {
-        try {
-            Image cardImage = new Image(String.valueOf(getClass().getResource(card.getCard())));
-            currentCard.setImage(cardImage);
-            currentCard.setFitHeight(240);
-            currentCard.setPreserveRatio(true);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            //TODO log
-        }
+    public void updateTimer(String elapsedTime) {
+        time.setText(elapsedTime);
     }
 
     public void drawBoard() {
@@ -122,6 +108,13 @@ public class GameController {
 
     @FXML
     public void changeRunState() {
-
+        GameRunner.changeState();
+        if(pauseButton.getText().equals("Pause")){
+            pauseButton.setText("Resume");
+        }else{
+            pauseButton.setText("Pause");
+        }
     }
+
+
 }

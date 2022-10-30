@@ -183,7 +183,7 @@ public class Board {
                     return GameObject.EMPTY;
                 }
             } else {
-                throw new IndexOutOfBoundsException("Position not valid");
+                throw new IndexOutOfBoundsException("Position not valid  " + position);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
