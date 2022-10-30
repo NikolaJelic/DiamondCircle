@@ -28,12 +28,11 @@ public class Player {
                 figures.add(figureFactory.getRandomFigure(Board.finalPosition, color));
             } catch (Exception e) {
                 DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
-
             }
         }
     }
 
-    public boolean isFinished(){
+    public boolean isFinished() {
         return figures.isEmpty();
     }
 
@@ -45,7 +44,9 @@ public class Player {
         try {
             if (getCurrentFigure().isFinished() || !getCurrentFigure().isAlive()) {
                 updatePlayerData();
-                figures.remove(0);
+                if(!figures.isEmpty()) {
+                    figures.remove(0);
+                }
             }
         } catch (NullPointerException e) {
             DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
@@ -79,6 +80,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player " + name + playerData + '\n';
+        return "Player " + name + " [" + color + "] " + playerData + '\n';
     }
 }

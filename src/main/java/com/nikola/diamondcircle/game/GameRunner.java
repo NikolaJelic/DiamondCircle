@@ -26,6 +26,18 @@ public class GameRunner extends Thread {
     public GameRunner() {
     }
 
+    public static void changeState() {
+        synchronized (pauseLock) {
+            if (isRunning) {
+                isRunning = false;
+                pauseOffset = elapsedTime;
+            } else {
+                isRunning = true;
+                pauseLock.notifyAll();
+                adjustTime();
+            }
+        }
+    }
 
     @Override
     public void run() {
@@ -38,9 +50,13 @@ public class GameRunner extends Thread {
                 game.pickCard();
                 Platform.runLater(() -> {
                     gameController.drawCard(game.getCurrentCard());
-                    gameController.drawBoard();
                 });
-                sleep(1000);
+                for(int i = 0; i < game.getCurrentCard().getStep(); ++i){
+                    game.
+                }
+
+                game.board.removeHoles();
+                sleep(100);
             } catch (Exception e) {
                 DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
             }
@@ -57,19 +73,6 @@ public class GameRunner extends Thread {
         synchronized (pauseLock) {
             while (!isRunning) {
                 pauseLock.wait();
-            }
-        }
-    }
-
-    public static void changeState() {
-        synchronized (pauseLock) {
-            if (isRunning) {
-                isRunning = false;
-                pauseOffset = elapsedTime;
-            } else {
-                isRunning = true;
-                pauseLock.notifyAll();
-                adjustTime();
             }
         }
     }

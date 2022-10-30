@@ -175,6 +175,9 @@ public class Board {
         }
     }
 
+    public synchronized void removeHoles(){
+        holePositions = new ArrayList<>();
+    }
 
     public GameObject getObjectAtPosition(int position) {
         try {
@@ -193,7 +196,7 @@ public class Board {
                 throw new IndexOutOfBoundsException("Position not valid  " + position);
             }
         } catch (Exception e) {
-            DiamondCircle.logger.log(Level.SEVERE, e.fillInStackTrace().toString());
+            DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
         }
         return null;
     }

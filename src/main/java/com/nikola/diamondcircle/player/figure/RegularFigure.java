@@ -3,6 +3,8 @@ package com.nikola.diamondcircle.player.figure;
 import com.nikola.diamondcircle.game.GameObject;
 import com.nikola.diamondcircle.utils.Color;
 
+import static java.lang.Thread.sleep;
+
 public class RegularFigure extends Figure {
 
     public RegularFigure(Integer maxPosition, Color color) {
@@ -17,11 +19,15 @@ public class RegularFigure extends Figure {
 
 
     @Override
-    public void move(Integer steps) {
+    public void move(Integer steps) throws InterruptedException {
+
         int distance = diamondCount + steps;
-        currentPosition += distance;
-        if (currentPosition >= maxPosition) {
-            setFinished(true);
+        for (int i = 0; i < distance; ++i) {
+            if (currentPosition + 1 >= maxPosition) {
+                setFinished(true);
+            }
+            ++currentPosition;
+            sleep(1000);
         }
     }
 

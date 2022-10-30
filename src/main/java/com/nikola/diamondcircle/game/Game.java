@@ -1,5 +1,6 @@
 package com.nikola.diamondcircle.game;
 
+import com.nikola.diamondcircle.DiamondCircle;
 import com.nikola.diamondcircle.player.Player;
 import com.nikola.diamondcircle.utils.Card;
 import com.nikola.diamondcircle.utils.ColorFactory;
@@ -7,6 +8,7 @@ import com.nikola.diamondcircle.utils.Deck;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class Game {
     public Board board;
@@ -33,9 +35,9 @@ public class Game {
         currentCard = cards.getCard();
         if (currentCard == Card.SPECIAL) {
             board.setHoles();
-            //TODO Draw Holes
             for (Player player : players) {
                 player.getCurrentFigure().interact(board.getObjectAtPosition(player.getCurrentFigure().getCurrentPosition()));
+                player.useNextFigure();
             }
         } else {
             makeMove(currentCard.getStep());
@@ -43,18 +45,17 @@ public class Game {
     }
 
     public void makeMove(Integer steps) {
-        Player currentPlayer = getCurrentPlayerIndex();
-        currentPlayer.getCurrentFigure().move(steps);
-        currentPlayer.getCurrentFigure().interact(board.getObjectAtPosition(currentPlayer.getCurrentFigure().getCurrentPosition()));
-        currentPlayer.getCurrentFigure().addVisitedField(currentPlayer.getCurrentFigure().getCurrentPosition());
-
-        System.out.println(currentPlayer.getCurrentFigure().toString() + "at turn " + currentPlayer.getCurrentFigure().getCurrentPosition());
-
-        if (!currentPlayer.getCurrentFigure().isAlive() || currentPlayer.getCurrentFigure().isFinished()) {
+        try {
+            Player currentPlayer = getCurrentPlayerIndex();
+            currentPlayer.getCurrentFigure().move(steps);
             currentPlayer.useNextFigure();
+            currentPlayer.getCurrentFigure().interact(board.getObjectAtPosition(currentPlayer.getCurrentFigure().getCurrentPosition()));
+            currentPlayer.getCurrentFigure().addVisitedField(currentPlayer.getCurrentFigure().getCurrentPosition());
+            currentPlayer.useNextFigure();
+            System.out.println(currentPlayer.getCurrentFigure().toString() + " at turn " + currentPlayer.getCurrentFigure().getCurrentPosition());
+        }catch (Exception e){
+            DiamondCircle.logger.log(Level.SEVERE, e.fillInStackTrace().toString());
         }
-
-        //TODO update player position
     }
 
     private Player getCurrentPlayerIndex() {
@@ -79,4 +80,6 @@ public class Game {
     public Card getCurrentCard() {
         return currentCard;
     }
+
+
 }

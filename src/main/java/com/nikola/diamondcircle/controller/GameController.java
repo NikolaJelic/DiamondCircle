@@ -1,9 +1,11 @@
 package com.nikola.diamondcircle.controller;
 
 import com.nikola.diamondcircle.game.Game;
+import com.nikola.diamondcircle.game.GameObject;
 import com.nikola.diamondcircle.game.GameRunner;
 import com.nikola.diamondcircle.player.Player;
 import com.nikola.diamondcircle.utils.Card;
+import com.nikola.diamondcircle.utils.Position;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,8 +16,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-
-import java.util.Arrays;
 
 import static javafx.scene.paint.Color.web;
 
@@ -96,22 +96,31 @@ public class GameController {
     }
 
     public void drawBoard() {
-        for (var validPos : game.board.getValidPositions()) {
-            try {
-                ImageView field = new ImageView(String.valueOf(getClass().getResource("com/nikola/diamondcircle/assets/drops/Ground.png")));
-                board.add(field, validPos.getX(), validPos.getY());
-            } catch (Exception e) {
-                System.out.println(Arrays.toString(e.getStackTrace()) + "error");
+        board.getChildren().clear();
+        for (int i = 0; i < game.board.finalPosition; ++i) {
+            GameObject object = game.board.getObjectAtPosition(i);
+            if (object != GameObject.FIGURE) {
+                ImageView sprite = new ImageView(object.getTexture());
+                var pos = game.board.getValidPositions().get(i);
+                board.add(sprite, pos.getX(),pos.getY(),1,1);
             }
+        }
+      for(var player : game.players){
+            Position pos = game.board.getValidPositions().get(player.getCurrentFigure().getCurrentPosition());
+            Color figureColor = web(player.getColor().getColorValue());
+            Lighting lightingEffect = new Lighting(new Light.Distant(40, 100, figureColor));
+            ImageView sprite = new ImageView(player.getCurrentFigure().getTexturePath());
+            sprite.setEffect(lightingEffect);
+            board.add(sprite,pos.getX(), pos.getY(),1,1);
         }
     }
 
     @FXML
     public void changeRunState() {
         GameRunner.changeState();
-        if(pauseButton.getText().equals("Pause")){
+        if (pauseButton.getText().equals("Pause")) {
             pauseButton.setText("Resume");
-        }else{
+        } else {
             pauseButton.setText("Pause");
         }
     }
