@@ -145,8 +145,9 @@ public class GameController {
     @FXML
     public void openFigureHistory() {
         var selected = figureList.getSelectionModel().getSelectedIndex();
-        int playerIndex = selected / game.players.size();
-        int figure = selected - playerIndex * 4;
+        int playerIndex = selected / 4;
+        int figure = selected  - playerIndex * 4;
+        System.out.println(selected+ " " + playerIndex + " " + figure);
         var visited = game.players.get(playerIndex).getFigures().get(figure).getVisited();
 
         try {
