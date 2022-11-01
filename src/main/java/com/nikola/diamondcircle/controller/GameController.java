@@ -1,5 +1,7 @@
 package com.nikola.diamondcircle.controller;
 
+import com.nikola.diamondcircle.DiamondCircle;
+import com.nikola.diamondcircle.game.Board;
 import com.nikola.diamondcircle.game.Game;
 import com.nikola.diamondcircle.game.GameObject;
 import com.nikola.diamondcircle.game.GameRunner;
@@ -7,6 +9,9 @@ import com.nikola.diamondcircle.player.Player;
 import com.nikola.diamondcircle.utils.Card;
 import com.nikola.diamondcircle.utils.Position;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -16,6 +21,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
+import java.util.logging.Level;
 
 import static javafx.scene.paint.Color.web;
 
@@ -39,6 +47,8 @@ public class GameController {
     public ImageView currentCard;
     @FXML
     public GridPane board;
+    @FXML
+    public GridPane figureInfo;
 
 
     public GameController(Game game) {
@@ -97,22 +107,28 @@ public class GameController {
 
     public void drawBoard() {
         board.getChildren().clear();
-        for (int i = 0; i < game.board.finalPosition; ++i) {
+        for (int i = 0; i < Board.finalPosition; ++i) {
             GameObject object = game.board.getObjectAtPosition(i);
             if (object != GameObject.FIGURE) {
                 ImageView sprite = new ImageView(object.getTexture());
                 var pos = game.board.getValidPositions().get(i);
-                board.add(sprite, pos.getX(),pos.getY(),1,1);
+                board.add(sprite, pos.getX(), pos.getY(), 1, 1);
             }
         }
-      for(var player : game.players){
-            Position pos = game.board.getValidPositions().get(player.getCurrentFigure().getCurrentPosition());
-            Color figureColor = web(player.getColor().getColorValue());
-            Lighting lightingEffect = new Lighting(new Light.Distant(40, 100, figureColor));
-            ImageView sprite = new ImageView(player.getCurrentFigure().getTexturePath());
-            sprite.setEffect(lightingEffect);
-            board.add(sprite,pos.getX(), pos.getY(),1,1);
+        for (var player : game.players) {
+            if (!player.isFinished()) {
+                Position pos = game.board.getValidPositions().get(player.getCurrentFigure().getCurrentPosition());
+                Color figureColor = web(player.getColor().getColorValue());
+                Lighting lightingEffect = new Lighting(new Light.Distant(40, 100, figureColor));
+                ImageView sprite = new ImageView(player.getCurrentFigure().getTexturePath());
+                sprite.setEffect(lightingEffect);
+                board.add(sprite, pos.getX(), pos.getY(), 1, 1);
+            }
         }
+    }
+
+    public void updateMessage(String message) {
+        cardDescription.setText(message);
     }
 
     @FXML
@@ -125,5 +141,28 @@ public class GameController {
         }
     }
 
+
+    @FXML
+    public void openFigureHistory() {
+        var selected = figureList.getSelectionModel().getSelectedIndex();
+        int playerIndex = selected / game.players.size();
+        int figure = selected - playerIndex * 4;
+        var visited = game.players.get(playerIndex).getFigures().get(figure).getVisited();
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/nikola/diamondcircle/views/figure.fxml"));
+            FigureController figureController = new FigureController(visited, game.board.getValidPositions());
+            loader.setController(figureController);
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("DiamondCircle");
+            stage.setScene(new Scene(root, 600, 600));
+            stage.setResizable(false);
+            stage.show();
+        } catch (Exception e) {
+            DiamondCircle.logger.log(Level.SEVERE, e.fillInStackTrace().toString());
+        }
+
+    }
 
 }

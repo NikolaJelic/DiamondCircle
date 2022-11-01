@@ -15,12 +15,15 @@ public class Player {
     private final String name;
     private final List<Figure> figures;
 
-    private String playerData;
+    private int currentFigureIndex;
+
+    private boolean isFinished;
 
     public Player(Color color, String name) {
         this.color = color;
-        this.playerData = "";
         this.name = name;
+        this.currentFigureIndex = 0;
+        this.isFinished = false;
         this.figures = new ArrayList<>();
         FigureFactory figureFactory = new FigureFactory();
         for (int i = 0; i < 4; ++i) {
@@ -33,7 +36,7 @@ public class Player {
     }
 
     public boolean isFinished() {
-        return figures.isEmpty();
+        return isFinished;
     }
 
     public String getName() {
@@ -43,9 +46,10 @@ public class Player {
     public void useNextFigure() {
         try {
             if (getCurrentFigure().isFinished() || !getCurrentFigure().isAlive()) {
-                updatePlayerData();
-                if(!figures.isEmpty()) {
-                    figures.remove(0);
+                if (currentFigureIndex < figures.size() - 1) {
+                    ++currentFigureIndex;
+                } else {
+                    isFinished = true;
                 }
             }
         } catch (NullPointerException e) {
@@ -55,20 +59,14 @@ public class Player {
 
     public Figure getCurrentFigure() {
         try {
-            return figures.get(0);
+            System.out.println("Figures :" + figures.size() + " current " + currentFigureIndex);
+            return figures.get(currentFigureIndex);
         } catch (NullPointerException e) {
             DiamondCircle.logger.log(Level.SEVERE, e.fillInStackTrace().toString());
         }
         return null;
     }
 
-    public void updatePlayerData() {
-        try {
-            playerData = playerData.concat("\n      " + getCurrentFigure().toString());
-        } catch (IndexOutOfBoundsException e) {
-            DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
-        }
-    }
 
     public Color getColor() {
         return color;
@@ -80,6 +78,10 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player " + name + " [" + color + "] " + playerData + '\n';
+        StringBuilder player = new StringBuilder("Player " + name + " [" + color + "] " + '\n');
+        for(var figure : figures){
+            player.append(figure.toString()).append('\n');
+        }
+        return player.toString();
     }
 }

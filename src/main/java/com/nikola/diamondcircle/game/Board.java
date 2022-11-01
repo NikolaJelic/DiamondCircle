@@ -46,16 +46,16 @@ public class Board {
     private Integer getFinalPosition() {
         switch (boardSize) {
             case 7 -> {
-                return 24;
+                return 25;
             }
             case 8 -> {
-                return 39;
-            }
-            case 9 -> {
                 return 40;
             }
+            case 9 -> {
+                return 41;
+            }
             case 10 -> {
-                return 59;
+                return 60;
             }
         }
         return 0;

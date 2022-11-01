@@ -6,7 +6,8 @@ public enum GameObject {
     FIGURE(""),
     COIN("coin.png"),
     EMPTY("Ground.png"),
-    HOLE("Hole.png");
+    HOLE("Hole.png"),
+    VISITED("visited.png");
 
     private String texture;
     private final String prefix = "com" + File.separator + "nikola" + File.separator + "diamondcircle" + File.separator + "assets" + File.separator + "drops" + File.separator;

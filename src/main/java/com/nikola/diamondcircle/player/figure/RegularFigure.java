@@ -17,25 +17,16 @@ public class RegularFigure extends Figure {
         return getPathPrefix() + "regular.png";
     }
 
-
     @Override
-    public void move(Integer steps) throws InterruptedException {
-
-        int distance = diamondCount + steps;
-        for (int i = 0; i < distance; ++i) {
-            if (currentPosition + 1 >= maxPosition) {
-                setFinished(true);
-            }
-            ++currentPosition;
-            sleep(1000);
-        }
+    public Integer getDistance(Integer steps) {
+        return diamondCount + steps;
     }
 
     @Override
     public void interact(GameObject gameObject) {
         switch (gameObject) {
             case HOLE -> setAlive(false);
-            case FIGURE -> incrementCurrentPosition();
+            case FIGURE -> move();
             case COIN -> diamondCount++;
         }
     }

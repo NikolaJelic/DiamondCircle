@@ -58,14 +58,19 @@ public abstract class Figure {
         return currentPosition;
     }
 
-    public void incrementCurrentPosition() {
-        ++currentPosition;
-    }
-
 
     public abstract String getTexturePath();
 
-    public abstract void move(Integer steps) throws InterruptedException;
+    public abstract Integer getDistance(Integer steps);
+
+    public void move() {
+        if (currentPosition < maxPosition -1) {
+            ++currentPosition;
+        }else{
+            setFinished(true);
+
+        }
+    }
 
     public abstract void interact(GameObject gameObject);
 
@@ -83,4 +88,8 @@ public abstract class Figure {
     }
 
     protected abstract String getType();
+
+    public List<Integer> getVisited() {
+        return visitedPositions;
+    }
 }

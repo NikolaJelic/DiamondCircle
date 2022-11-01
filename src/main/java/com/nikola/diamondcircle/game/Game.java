@@ -11,11 +11,10 @@ import java.util.List;
 import java.util.logging.Level;
 
 public class Game {
+    private final Deck cards;
     public Board board;
     public List<Player> players;
     private int currentPlayerIndex;
-    private final Deck cards;
-
     private Card currentCard;
 
 
@@ -39,42 +38,43 @@ public class Game {
                 player.getCurrentFigure().interact(board.getObjectAtPosition(player.getCurrentFigure().getCurrentPosition()));
                 player.useNextFigure();
             }
-        } else {
-            makeMove(currentCard.getStep());
+            board.removeHoles();
         }
     }
 
-    public void makeMove(Integer steps) {
+    public void makeMove(Player currentPlayer) {
         try {
-            Player currentPlayer = getCurrentPlayerIndex();
-            currentPlayer.getCurrentFigure().move(steps);
-            currentPlayer.useNextFigure();
+            currentPlayer.getCurrentFigure().move();
             currentPlayer.getCurrentFigure().interact(board.getObjectAtPosition(currentPlayer.getCurrentFigure().getCurrentPosition()));
-            currentPlayer.getCurrentFigure().addVisitedField(currentPlayer.getCurrentFigure().getCurrentPosition());
-            currentPlayer.useNextFigure();
             System.out.println(currentPlayer.getCurrentFigure().toString() + " at turn " + currentPlayer.getCurrentFigure().getCurrentPosition());
-        }catch (Exception e){
+        } catch (Exception e) {
             DiamondCircle.logger.log(Level.SEVERE, e.fillInStackTrace().toString());
         }
     }
 
-    private Player getCurrentPlayerIndex() {
+    public Player getCurrentPlayer() {
+        Player ret = players.get(currentPlayerIndex % players.size());
+        while (ret.isFinished()){
+            ret = players.get(++currentPlayerIndex % players.size());
+        }
+return ret;
+    }
+
+    public void nextPlayer() {
         ++currentPlayerIndex;
-        return players.get(currentPlayerIndex % players.size());
     }
 
     public boolean isGameOver() {
         for (Player player : players) {
-            if(!player.isFinished()){
+            if (!player.isFinished()) {
                 return false;
             }
         }
         return true;
     }
 
-    public String generateMoveMessage(Integer startPosition, Player player, Integer step) {
-        //TODOD update gui
-        return "Player " + player.getName() + ", figure " + player.getCurrentFigure().getFigureName() + " moves for " + step + " fields, from position " + startPosition + " to " + player.getCurrentFigure().getCurrentPosition() + ".";
+    public String generateMoveMessage(Player player, Integer step) {
+        return "Player " + player.getName() + ", figure " + player.getCurrentFigure().getFigureName() + " moves for " + step + " fields, from position " + player.getCurrentFigure().getCurrentPosition() + " to " + (player.getCurrentFigure().getCurrentPosition() + step) + ".";
     }
 
     public Card getCurrentCard() {

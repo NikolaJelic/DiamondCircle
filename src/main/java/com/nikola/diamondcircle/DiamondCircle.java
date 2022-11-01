@@ -43,6 +43,7 @@ public class DiamondCircle extends Application {
         StartController startController = fxmlLoader.getController();
         startController.setGameRunner(gameRunner);
         primaryStage.setResizable(false);
+        //primaryStage.setOnCloseRequest();
         primaryStage.show();
 
 
