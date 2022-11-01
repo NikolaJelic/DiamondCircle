@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class FigureFactory {
     public Figure getRandomFigure(Integer maxPosition, Color color){
-        switch (new Random().nextInt(4)){
+        switch (new Random().nextInt(3)){
             case 0 -> {
                 return new RegularFigure(maxPosition,color);
             }

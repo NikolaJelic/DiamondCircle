@@ -1,5 +1,6 @@
 package com.nikola.diamondcircle.controller;
 
+import com.nikola.diamondcircle.DiamondCircle;
 import com.nikola.diamondcircle.game.Game;
 import com.nikola.diamondcircle.game.GameRunner;
 import javafx.event.ActionEvent;
@@ -16,8 +17,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 
 public class StartController {
     public Label titleLabel;
@@ -42,13 +43,13 @@ public class StartController {
         startButton.setFont(font);
         sizeInput.setFont(font);
         playerNames = new ArrayList<>();
+
     }
 
 
     public void addPlayer(ActionEvent actionEvent) {
         try {
             String name = playerInputField.getText();
-            System.out.println(name +  " start");
             if (!playerNames.contains(name)) {
                 if (playerNames.size() >= 4) {
                     throw new IndexOutOfBoundsException("Cannot create more than 4 players.");
@@ -59,47 +60,39 @@ public class StartController {
             }
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            //TODO Log exception
+            DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
+
         }
     }
 
     public void startGame(ActionEvent actionEvent) {
         size = Integer.valueOf(sizeInput.getText());
-        if (playerNames.size() > 0 && playerNames.size() <= 4 && size >= 7 && size <= 10) {
+        if (!playerNames.isEmpty() && playerNames.size() <= 4 && size >= 7 && size <= 10) {
             canStart = true;
         }
         try {
             if (!canStart) throw new Exception("Conditions not met");
-            initStartData(playerNames, size);
+            Game game = new Game(size, playerNames);
+            gameRunner.setGame(game);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/nikola/diamondcircle/views/game.fxml"));
-            GameController gameController = new GameController(gameRunner);
+            GameController gameController = new GameController(game);
             loader.setController(gameController);
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setTitle("DiamondCircle");
 
-
+            gameRunner.setGameController(gameController);
             stage.setScene(new Scene(root, 1000, 800));
             stage.setResizable(false);
             stage.show();
+            gameRunner.start();
             ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
         } catch (Exception e) {
-            //TODO log
-            System.out.println(e.getMessage());
+            DiamondCircle.logger.log(Level.SEVERE, e.fillInStackTrace().toString());
         }
 
     }
 
-    public void initStartData(List<String> playerNames, Integer size) {
-        try {
-            gameRunner.setGame(new Game(size, playerNames));
-        } catch (Exception e) {
-            //TODO Handle exception with logger
-            System.out.println("Error: " + e.getMessage() + Arrays.toString(e.getStackTrace()));
-
-        }
-    }
 
     public void setGameRunner(GameRunner gameRunner) {
         this.gameRunner = gameRunner;

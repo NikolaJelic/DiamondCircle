@@ -1,45 +1,54 @@
 package com.nikola.diamondcircle.game;
 
-import java.util.concurrent.ScheduledExecutorService;
+import com.nikola.diamondcircle.DiamondCircle;
+
+import java.util.logging.Level;
 
 public class Ghost extends Thread {
-    private Boolean isRunning;
-
-    private Board board;
+    private final Object ghostLock = new Object();
+    private boolean isRunning;
+    private final Board board;
 
     public Ghost(Board board) {
         this.board = board;
         isRunning = true;
     }
 
+    @Override
     public void run() {
-        synchronized (this) {
+        synchronized (ghostLock) {
             try {
                 awaitCondition();
             } catch (InterruptedException e) {
-                System.out.println(e.getMessage());
+                DiamondCircle.logger.log(Level.SEVERE, "INTERRUPTED!", e.fillInStackTrace().toString());
+                Thread.currentThread().interrupt();
             }
         }
         board.setDiamondPositions();
         try {
             sleep(5000);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            DiamondCircle.logger.log(Level.SEVERE, "INTERRUPTED!", e.fillInStackTrace().toString());
+            Thread.currentThread().interrupt();
         }
     }
 
     private void awaitCondition() throws InterruptedException {
-        while (!isRunning) {
-            wait();
+        synchronized (ghostLock) {
+            while (!isRunning) {
+                ghostLock.wait();
+            }
         }
     }
 
-    public void pause() {
+    public synchronized void pause() {
         isRunning = false;
     }
 
     public void unpause() {
-        isRunning = true;
-        this.notify();
+        synchronized (ghostLock) {
+            isRunning = true;
+            ghostLock.notifyAll();
+        }
     }
 }

@@ -25,7 +25,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'com.nikola.diamondcircle'
-    mainClass = 'com.nikola.diamondcircle.HelloApplication'
+    mainClass = 'com.nikola.diamondcircle.DiamondCircle'
 }
 
 javafx {
