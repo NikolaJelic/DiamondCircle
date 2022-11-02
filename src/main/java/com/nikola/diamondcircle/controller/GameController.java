@@ -6,8 +6,10 @@ import com.nikola.diamondcircle.game.Game;
 import com.nikola.diamondcircle.game.GameObject;
 import com.nikola.diamondcircle.game.GameRunner;
 import com.nikola.diamondcircle.player.Player;
+import com.nikola.diamondcircle.player.figure.Figure;
 import com.nikola.diamondcircle.utils.Card;
 import com.nikola.diamondcircle.utils.Position;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,6 +25,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.logging.Level;
 
 import static javafx.scene.paint.Color.web;
@@ -120,9 +123,12 @@ public class GameController {
                 Position pos = game.board.getValidPositions().get(player.getCurrentFigure().getCurrentPosition());
                 Color figureColor = web(player.getColor().getColorValue());
                 Lighting lightingEffect = new Lighting(new Light.Distant(40, 100, figureColor));
-                ImageView sprite = new ImageView(player.getCurrentFigure().getTexturePath());
-                sprite.setEffect(lightingEffect);
-                board.add(sprite, pos.getX(), pos.getY(), 1, 1);
+                Figure figure = player.getCurrentFigure();
+                if (figure.isAlive() && !figure.isFinished()) {
+                    ImageView sprite = new ImageView(player.getCurrentFigure().getTexturePath());
+                    sprite.setEffect(lightingEffect);
+                    board.add(sprite, pos.getX(), pos.getY(), 1, 1);
+                }
             }
         }
     }
@@ -132,7 +138,7 @@ public class GameController {
     }
 
     @FXML
-    public void changeRunState() {
+    public void changeRunState(ActionEvent actionEvent) {
         GameRunner.changeState();
         if (pauseButton.getText().equals("Pause")) {
             pauseButton.setText("Resume");
@@ -146,8 +152,7 @@ public class GameController {
     public void openFigureHistory() {
         var selected = figureList.getSelectionModel().getSelectedIndex();
         int playerIndex = selected / 4;
-        int figure = selected  - playerIndex * 4;
-        System.out.println(selected+ " " + playerIndex + " " + figure);
+        int figure = selected - playerIndex * 4;
         var visited = game.players.get(playerIndex).getFigures().get(figure).getVisited();
 
         try {
@@ -164,6 +169,22 @@ public class GameController {
             DiamondCircle.logger.log(Level.SEVERE, e.fillInStackTrace().toString());
         }
 
+    }
+
+    @FXML
+    public void ListGames(ActionEvent actionEvent){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/nikola/diamondcircle/views/fileLister.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Diamond Circle");
+            stage.setScene(new Scene(root, 600, 800));
+
+            stage.setResizable(false);
+            stage.show();
+        }catch (IOException e){
+            DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
+        }
     }
 
 }

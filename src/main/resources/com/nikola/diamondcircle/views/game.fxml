@@ -83,7 +83,11 @@
                         <Insets left="250.0" />
                      </HBox.margin>
                   </VBox>
-                  <ListView fx:id="resultList" prefHeight="150.0" prefWidth="300.0" />
+                  <Button fx:id="listGamesButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#ListGames" prefHeight="100.0" prefWidth="200.0" text="View games">
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
             </HBox>
          </bottom>
