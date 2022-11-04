@@ -44,7 +44,6 @@ public class FileListController {
         try {
             //Init controller
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/nikola/diamondcircle/views/gameHistory.fxml"));
-            System.out.println(destinationFolder + selectedFileName);
             GameHistoryController gameHistoryController = new GameHistoryController(destinationFolder + selectedFileName);
             loader.setController(gameHistoryController);
             Parent root = loader.load();

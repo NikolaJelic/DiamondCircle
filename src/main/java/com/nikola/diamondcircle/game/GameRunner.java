@@ -25,8 +25,6 @@ public class GameRunner extends Thread {
     private Game game;
     private GameController gameController;
 
-    private Ghost ghost;
-
 
     public GameRunner(Integer boardSize, List<String> playerNames) {
         this();
@@ -79,15 +77,15 @@ public class GameRunner extends Thread {
 
                     //move player
                     Player currentPlayer = game.getCurrentPlayer();
-                    System.out.println(currentPlayer.getName() + "Is playing");
 
                     endPosition = currentPlayer.getCurrentFigure().getDistance(game.getCurrentCard().getStep());
-                    System.out.println(game.board.getPlayerPositions());
                     for (int i = 0; i < game.players.size(); ++i) {
-                        if (game.board.getObjectAtPosition(currentPlayer.getCurrentFigure().getCurrentPosition() + endPosition) == GameObject.FIGURE) {
-                            System.out.println("Spot is taken");
-                            ++endPosition;
+                        if (currentPlayer.getCurrentFigure().getCurrentPosition() + endPosition < game.board.getValidPositions().size()) {
+                            if (game.board.getObjectAtPosition(currentPlayer.getCurrentFigure().getCurrentPosition() + endPosition) == GameObject.FIGURE) {
+                                ++endPosition;
+                            }
                         }
+
                     }
 
                     int finalEndPosition = endPosition;
@@ -103,13 +101,13 @@ public class GameRunner extends Thread {
                         });
 
                         game.makeMove(currentPlayer);
+                        game.board.pickDiamond(currentPlayer.getCurrentFigure().getCurrentPosition());
                         updatePlayerPositions();
                         Platform.runLater(() -> gameController.drawBoard());
-                        sleep(1000);
+                        sleep(100);
                         currentPlayer.getCurrentFigure().addVisitedField(currentPlayer.getCurrentFigure().getCurrentPosition());
 
                     }
-                    System.out.println(currentPlayer.toString());
                     game.nextPlayer();
                     currentPlayer.useNextFigure();
 
@@ -122,6 +120,7 @@ public class GameRunner extends Thread {
         }
         if (game.isGameOver()) {
             writeFile();
+
         }
     }
 

@@ -5,22 +5,22 @@ import com.nikola.diamondcircle.DiamondCircle;
 import java.util.logging.Level;
 
 public class Ghost extends Thread {
-    private final Object ghostLock = new Object();
-    private boolean isRunning;
-    private final Board board;
+    private  static final Object ghostLock = new Object();
+    private static boolean isRunning;
+    private final Game game;
 
-    public Ghost(Board board) {
-        this.board = board;
+    public Ghost(Game game) {
+        this.game  = game;
         isRunning = true;
     }
 
     @Override
     public void run() {
         synchronized (ghostLock) {
-            while (isRunning) {
+            while (!game.isGameOver()) {
                 try {
                     awaitCondition();
-                    board.setDiamondPositions();
+                    game.board.setDiamondPositions();
 
                     sleep(5000);
 
@@ -41,7 +41,7 @@ public class Ghost extends Thread {
         }
     }
 
-    public void changeState() {
+    public static void changeState() {
         synchronized (ghostLock) {
             if (isRunning) {
                 isRunning = false;

@@ -164,29 +164,28 @@ public class Board {
     public synchronized void setDiamondPositions() {
         diamondPositions = new ArrayList<>();
         for (int i = 0; i < random.nextInt(boardSize - 2) + 2; ++i) {
-            diamondPositions.add(random.nextInt(validPositions.size()));
+            diamondPositions.add(random.nextInt(validPositions.size() - 1));
         }
     }
 
 
     public synchronized void setHoles() {
         holePositions = new ArrayList<>();
-        for (int i = 0; i < holeCount; ++i) {
+        for (int i = 0; i < random.nextInt(holeCount); ++i) {
             holePositions.add(random.nextInt(validPositions.size()));
         }
     }
 
-    public synchronized void removeHoles(){
+    public synchronized void removeHoles() {
         holePositions = new ArrayList<>();
     }
 
     public GameObject getObjectAtPosition(int position) {
         try {
-            if (position >= 0 && position <= finalPosition) {
+            if (position >= 0 && position < finalPosition) {
                 if (playerPositions.contains(position)) {
                     return GameObject.FIGURE;
                 } else if (diamondPositions.contains(position)) {
-                    diamondPositions.remove(position); //picked up
                     return GameObject.COIN;
                 } else if (holePositions.contains(position)) {
                     return GameObject.HOLE;
@@ -199,8 +198,14 @@ public class Board {
         } catch (Exception e) {
             DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
         }
-        return null;
+        return GameObject.EMPTY;
     }
 
+    public void pickDiamond(int position) {
+        if (diamondPositions.contains(position)) {
+            int index = diamondPositions.indexOf(position);
+            diamondPositions.remove(index);
+        }
+    }
 
 }

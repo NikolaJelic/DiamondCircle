@@ -22,8 +22,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.logging.Level;
+import java.util.stream.Stream;
 
 import static javafx.scene.paint.Color.web;
 
@@ -42,8 +45,6 @@ public class GameController {
     @FXML
     public Label cardDescription;
     @FXML
-    public ListView resultList;
-    @FXML
     public ImageView currentCard;
     @FXML
     public GridPane board;
@@ -51,23 +52,23 @@ public class GameController {
     private Ghost ghost;
 
 
-
     public GameController(Game game) {
         this.game = game;
-        ghost = new Ghost(game.board);
-       // ghost.start();
+        ghost = new Ghost(game);
+        ghost.start();
     }
 
 
     @FXML
     public void initialize() {
         try {
+            gameCountLabel.setText(countGames().toString());
             drawPlayers();
             drawCard(Card.BACK);
             drawFigureList();
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
         }
     }
 
@@ -86,8 +87,7 @@ public class GameController {
             currentCard.setFitHeight(240);
             currentCard.setPreserveRatio(true);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            //TODO log
+            DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
         }
     }
 
@@ -173,7 +173,7 @@ public class GameController {
     }
 
     @FXML
-    public void ListGames(ActionEvent actionEvent){
+    public void ListGames(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/nikola/diamondcircle/views/fileLister.fxml"));
             Parent root = loader.load();
@@ -183,9 +183,19 @@ public class GameController {
 
             stage.setResizable(false);
             stage.show();
-        }catch (IOException e){
+        } catch (IOException e) {
             DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
         }
+    }
+
+    private Integer countGames() {
+        String destinationFolder = "data" + File.separator + "games" + File.separator;
+        File destFolder = new File(destinationFolder);
+        int ret = 0;
+        if (destFolder.isDirectory()) {
+            ret = Stream.of(Objects.requireNonNull(destFolder.listFiles())).filter(File::isFile).map(File::getName).toList().size();
+        }
+        return ret;
     }
 
 }
