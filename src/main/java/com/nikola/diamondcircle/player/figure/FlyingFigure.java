@@ -22,7 +22,6 @@ public class FlyingFigure extends Figure{
     @Override
     public void interact(GameObject gameObject) {
         switch (gameObject){
-            case FIGURE -> move();
             case COIN -> diamondCount++;
         }
     }

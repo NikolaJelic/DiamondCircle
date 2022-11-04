@@ -25,7 +25,6 @@ public class FastFigure extends Figure {
     public void interact(GameObject gameObject) {
         switch (gameObject) {
             case HOLE -> setAlive(false);
-            case FIGURE -> move();
             case COIN -> diamondCount++;
         }
     }

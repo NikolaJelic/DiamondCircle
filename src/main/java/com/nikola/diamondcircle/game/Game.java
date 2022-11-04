@@ -46,7 +46,7 @@ public class Game {
         try {
             currentPlayer.getCurrentFigure().move();
             currentPlayer.getCurrentFigure().interact(board.getObjectAtPosition(currentPlayer.getCurrentFigure().getCurrentPosition()));
-            System.out.println(currentPlayer.getCurrentFigure().toString() + " at turn " + currentPlayer.getCurrentFigure().getCurrentPosition());
+           // System.out.println(currentPlayer.getCurrentFigure().toString() + " at turn " + currentPlayer.getCurrentFigure().getCurrentPosition());
         } catch (Exception e) {
             DiamondCircle.logger.log(Level.SEVERE, e.fillInStackTrace().toString());
         }

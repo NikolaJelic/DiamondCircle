@@ -1,6 +1,7 @@
 package com.nikola.diamondcircle.game;
 
 import com.nikola.diamondcircle.DiamondCircle;
+import com.nikola.diamondcircle.player.Player;
 import com.nikola.diamondcircle.utils.Position;
 
 import java.util.ArrayList;

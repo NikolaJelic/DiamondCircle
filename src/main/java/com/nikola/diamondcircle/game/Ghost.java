@@ -17,20 +17,20 @@ public class Ghost extends Thread {
     @Override
     public void run() {
         synchronized (ghostLock) {
-            try {
-                awaitCondition();
-            } catch (InterruptedException e) {
-                DiamondCircle.logger.log(Level.SEVERE, "INTERRUPTED!", e.fillInStackTrace().toString());
-                Thread.currentThread().interrupt();
+            while (isRunning) {
+                try {
+                    awaitCondition();
+                    board.setDiamondPositions();
+
+                    sleep(5000);
+
+                } catch (InterruptedException e) {
+                    DiamondCircle.logger.log(Level.SEVERE, "INTERRUPTED!", e.fillInStackTrace().toString());
+                    Thread.currentThread().interrupt();
+                }
             }
         }
-        board.setDiamondPositions();
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            DiamondCircle.logger.log(Level.SEVERE, "INTERRUPTED!", e.fillInStackTrace().toString());
-            Thread.currentThread().interrupt();
-        }
+
     }
 
     private void awaitCondition() throws InterruptedException {
@@ -41,14 +41,14 @@ public class Ghost extends Thread {
         }
     }
 
-    public synchronized void pause() {
-        isRunning = false;
-    }
-
-    public void unpause() {
+    public void changeState() {
         synchronized (ghostLock) {
-            isRunning = true;
-            ghostLock.notifyAll();
+            if (isRunning) {
+                isRunning = false;
+            } else {
+                isRunning = true;
+                ghostLock.notifyAll();
+            }
         }
     }
 }

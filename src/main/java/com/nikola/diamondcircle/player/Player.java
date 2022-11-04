@@ -59,7 +59,6 @@ public class Player {
 
     public Figure getCurrentFigure() {
         try {
-            System.out.println("Figures :" + figures.size() + " current " + currentFigureIndex);
             return figures.get(currentFigureIndex);
         } catch (NullPointerException e) {
             DiamondCircle.logger.log(Level.SEVERE, e.fillInStackTrace().toString());

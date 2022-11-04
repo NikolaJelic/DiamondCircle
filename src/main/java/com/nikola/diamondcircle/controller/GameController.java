@@ -1,10 +1,7 @@
 package com.nikola.diamondcircle.controller;
 
 import com.nikola.diamondcircle.DiamondCircle;
-import com.nikola.diamondcircle.game.Board;
-import com.nikola.diamondcircle.game.Game;
-import com.nikola.diamondcircle.game.GameObject;
-import com.nikola.diamondcircle.game.GameRunner;
+import com.nikola.diamondcircle.game.*;
 import com.nikola.diamondcircle.player.Player;
 import com.nikola.diamondcircle.player.figure.Figure;
 import com.nikola.diamondcircle.utils.Card;
@@ -50,13 +47,15 @@ public class GameController {
     public ImageView currentCard;
     @FXML
     public GridPane board;
-    @FXML
-    public GridPane figureInfo;
+
+    private Ghost ghost;
+
 
 
     public GameController(Game game) {
         this.game = game;
-
+        ghost = new Ghost(game.board);
+       // ghost.start();
     }
 
 
@@ -66,6 +65,7 @@ public class GameController {
             drawPlayers();
             drawCard(Card.BACK);
             drawFigureList();
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -140,6 +140,7 @@ public class GameController {
     @FXML
     public void changeRunState(ActionEvent actionEvent) {
         GameRunner.changeState();
+        ghost.changeState();
         if (pauseButton.getText().equals("Pause")) {
             pauseButton.setText("Resume");
         } else {

@@ -3,11 +3,13 @@ package com.nikola.diamondcircle.game;
 import com.nikola.diamondcircle.DiamondCircle;
 import com.nikola.diamondcircle.controller.GameController;
 import com.nikola.diamondcircle.player.Player;
+import com.nikola.diamondcircle.utils.Card;
 import javafx.application.Platform;
 
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +24,8 @@ public class GameRunner extends Thread {
     private static Long pauseOffset = 0L;
     private Game game;
     private GameController gameController;
+
+    private Ghost ghost;
 
 
     public GameRunner(Integer boardSize, List<String> playerNames) {
@@ -52,6 +56,7 @@ public class GameRunner extends Thread {
     @Override
     public void run() {
         adjustTime();
+        int endPosition = 0;
         while (!game.isGameOver()) {
             try {
                 //check if paused
@@ -61,59 +66,61 @@ public class GameRunner extends Thread {
                 elapsedTime = pauseOffset + (System.nanoTime() - startTIme) / 1000000000;
                 Platform.runLater(() -> gameController.updateTimer(elapsedTime.toString()));
 
+                // update player positions
+                updatePlayerPositions();
+
                 //pick card and check holes
                 game.pickCard();
-                Platform.runLater(() -> {
-                    gameController.drawCard(game.getCurrentCard());
-                    gameController.drawBoard();
-                });
-
-
-                //move player
-                Player currentPlayer = game.getCurrentPlayer();
-
-
-
-                Platform.runLater(() -> gameController.updateMessage(game.generateMoveMessage(currentPlayer, game.getCurrentCard().getStep())));
-
-                for (int i = 0; i < game.getCurrentCard().getStep(); ++i) {
-                    elapsedTime = pauseOffset + (System.nanoTime() - startTIme) / 1000000000;
+                if (game.getCurrentCard() != Card.SPECIAL) {
                     Platform.runLater(() -> {
-                        gameController.updateTimer(elapsedTime.toString());
+                        gameController.drawCard(game.getCurrentCard());
+                        gameController.drawBoard();
                     });
 
-                    game.makeMove(currentPlayer);
-                    Platform.runLater(() -> gameController.drawBoard());
-                    sleep(10);
-                    currentPlayer.getCurrentFigure().addVisitedField(currentPlayer.getCurrentFigure().getCurrentPosition());
-                    currentPlayer.useNextFigure();
-                }
+                    //move player
+                    Player currentPlayer = game.getCurrentPlayer();
+                    System.out.println(currentPlayer.getName() + "Is playing");
 
-                //check for end of turn collisions
-                for (int i = 0; i < game.players.size() - 1; ++i) {
-                    if (Collections.frequency(game.board.getPlayerPositions(), currentPlayer.getCurrentFigure().getCurrentPosition()) > 1) {
+                    endPosition = currentPlayer.getCurrentFigure().getDistance(game.getCurrentCard().getStep());
+                    System.out.println(game.board.getPlayerPositions());
+                    for (int i = 0; i < game.players.size(); ++i) {
+                        if (game.board.getObjectAtPosition(currentPlayer.getCurrentFigure().getCurrentPosition() + endPosition) == GameObject.FIGURE) {
+                            System.out.println("Spot is taken");
+                            ++endPosition;
+                        }
+                    }
+
+                    int finalEndPosition = endPosition;
+                    Platform.runLater(() -> {
+                        gameController.updateMessage(game.generateMoveMessage(currentPlayer, finalEndPosition));
+                    });
+
+                    for (int i = 0; i < endPosition; ++i) {
+                        awaitCondition();
+                        elapsedTime = pauseOffset + (System.nanoTime() - startTIme) / 1000000000;
+                        Platform.runLater(() -> {
+                            gameController.updateTimer(elapsedTime.toString());
+                        });
+
                         game.makeMove(currentPlayer);
+                        updatePlayerPositions();
                         Platform.runLater(() -> gameController.drawBoard());
                         sleep(1000);
                         currentPlayer.getCurrentFigure().addVisitedField(currentPlayer.getCurrentFigure().getCurrentPosition());
-                        currentPlayer.useNextFigure();
-                    }
-                }
-                currentPlayer.getCurrentFigure().interact(game.board.getObjectAtPosition(currentPlayer.getCurrentFigure().getCurrentPosition()));
-                currentPlayer.getCurrentFigure().interact(game.board.getObjectAtPosition(currentPlayer.getCurrentFigure().getCurrentPosition()));
-                currentPlayer.getCurrentFigure().interact(game.board.getObjectAtPosition(currentPlayer.getCurrentFigure().getCurrentPosition()));
-                currentPlayer.useNextFigure();
-                //Interact 3 times to check for overlap at the end
-                game.nextPlayer();
 
-                System.out.println(currentPlayer.toString());
+                    }
+                    System.out.println(currentPlayer.toString());
+                    game.nextPlayer();
+                    currentPlayer.useNextFigure();
+
+                }
 
 
             } catch (Exception e) {
                 DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
             }
         }
-        if(game.isGameOver()){
+        if (game.isGameOver()) {
             writeFile();
         }
     }
@@ -134,19 +141,27 @@ public class GameRunner extends Thread {
         this.game = game;
     }
 
-    public void writeFile(){
+    public void writeFile() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
         LocalDateTime now = LocalDateTime.now();
-        String name =  dtf.format(now) + ".txt";
-        String prefix = "data"+ File.separator+"games"+File.separator;
-        File file = new File(prefix+name);
-        try( BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-           for(Player player : game.players){
-               writer.write(player.toString());
-           }
-        }catch (IOException e){
+        String name = dtf.format(now) + ".txt";
+        String prefix = "data" + File.separator + "games" + File.separator;
+        File file = new File(prefix + name);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            for (Player player : game.players) {
+                writer.write(player.toString());
+            }
+        } catch (IOException e) {
             DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
         }
+    }
+
+    private void updatePlayerPositions() {
+        List<Integer> playerPositions = new ArrayList<>();
+        for (Player player : game.players) {
+            playerPositions.add(player.getCurrentFigure().getCurrentPosition());
+        }
+        game.board.setPlayerPositions(playerPositions);
     }
 
 }

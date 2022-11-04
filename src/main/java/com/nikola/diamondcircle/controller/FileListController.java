@@ -1,13 +1,19 @@
 package com.nikola.diamondcircle.controller;
 
+import com.nikola.diamondcircle.DiamondCircle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,7 +41,24 @@ public class FileListController {
     @FXML
     public void openFile(MouseEvent mouseEvent) {
         selectedFileName = fileList.getSelectionModel().getSelectedItem().getText();
-        System.out.println(selectedFileName);
+        try {
+            //Init controller
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/nikola/diamondcircle/views/gameHistory.fxml"));
+            System.out.println(destinationFolder + selectedFileName);
+            GameHistoryController gameHistoryController = new GameHistoryController(destinationFolder + selectedFileName);
+            loader.setController(gameHistoryController);
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Diamond Circle");
+            stage.setScene(new Scene(root, 1200, 600));
+
+            stage.setResizable(false);
+            stage.show();
+        } catch (Exception e) {
+            DiamondCircle.logger.log(Level.SEVERE, e.fillInStackTrace().toString());
+        }
+
         // Make GameHistoryController and pass the file
 
     }
