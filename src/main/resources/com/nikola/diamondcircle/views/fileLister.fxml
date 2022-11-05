@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="800.0" prefWidth="600.0" styleClass="dialog" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nikola.diamondcircle.controller.FileListController">
+   <children>
+      <ListView fx:id="fileList" layoutX="200.0" layoutY="300.0" onMouseClicked="#openFile" prefHeight="800.0" prefWidth="600.0" styleClass="dialog" stylesheets="@../style/style.css" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0" />
+   </children>
+</AnchorPane>

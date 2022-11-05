@@ -1,18 +1,23 @@
 package com.nikola.diamondcircle.game;
 
+import com.nikola.diamondcircle.DiamondCircle;
 import com.nikola.diamondcircle.utils.Position;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
 public class Board {
-    public  int boardSize;
-    public  Integer finalPosition;
-    private final Integer HOLE_COUNT = 10;
+    public static Integer finalPosition;
+    private final Integer holeCount = 10;
     private final List<Position> validPositions;
-
-    private int maxHeight, minHeight, maxWidth, minWidth;
+    private final Random random;
+    public int boardSize;
+    private int minHeight;
+    private int maxHeight;
+    private int maxWidth;
+    private int minWidth;
     private List<Integer> holePositions;
     private List<Integer> diamondPositions;
     private List<Integer> playerPositions;
@@ -20,44 +25,40 @@ public class Board {
     public Board(int size) {
         if (size >= 7 && size <= 10) {
             validPositions = new ArrayList<>();
+
             boardSize = size;
             minHeight = 0;
             maxHeight = size - 1;
             minWidth = 0;
             maxWidth = size - 1;
+            random = new Random();
             diamondPositions = new ArrayList<>();
             holePositions = new ArrayList<>();
             playerPositions = new ArrayList<>();
+            finalPosition = getFinalPosition();
             generateValidPositions();
-            finalPosition = validPositions.size() - 1;
 
         } else {
             throw new RuntimeException("Board size not valid!");
         }
     }
 
-    public  int getBoardSize() {
-        return boardSize;
-    }
-
-    public List<Integer> getDiamondPositions() {
-        return diamondPositions;
-    }
-
-    public List<Position> getValidPositions() {
-        return validPositions;
-    }
-
-    public List<Integer> getHolePositions() {
-        return holePositions;
-    }
-
-    public List<Integer> getPlayerPositions() {
-        return playerPositions;
-    }
-
-    public void setPlayerPositions(List<Integer> playerPositions) {
-        this.playerPositions = playerPositions;
+    private Integer getFinalPosition() {
+        switch (boardSize) {
+            case 7 -> {
+                return 25;
+            }
+            case 8 -> {
+                return 40;
+            }
+            case 9 -> {
+                return 41;
+            }
+            case 10 -> {
+                return 60;
+            }
+        }
+        return 0;
     }
 
     private void generateValidPositions() {
@@ -65,7 +66,7 @@ public class Board {
             Position currentPosition = new Position(boardSize / 2 - 1, 0);
             validPositions.add(new Position(boardSize / 2 - 1, 0));
 
-            while (!currentPosition.equals(validPositions.get(finalPosition))) {
+            while (validPositions.size() != finalPosition) {
                 currentPosition = moveEven(currentPosition);
                 if (!validPositions.contains(currentPosition))
                     validPositions.add(new Position(currentPosition.getX(), currentPosition.getY()));
@@ -73,33 +74,12 @@ public class Board {
         } else {
             Position currentPosition = new Position(boardSize / 2, 0);
             validPositions.add(new Position(boardSize / 2, 0));
-            while (!currentPosition.equals(validPositions.get(finalPosition))) {
+            while (validPositions.size() != finalPosition) {
                 currentPosition = moveOdd(currentPosition);
                 if (!validPositions.contains(currentPosition))
                     validPositions.add(new Position(currentPosition.getX(), currentPosition.getY()));
             }
         }
-    }
-
-
-    private Position moveOdd(Position currentPosition) {
-        int middle = boardSize / 2;
-        if (currentPosition.getY() >= minHeight && currentPosition.getY() < middle && currentPosition.getX() >= middle && currentPosition.getX() < maxWidth) {
-            if (currentPosition.getY() == minHeight && currentPosition.getX() == middle) ++minHeight;
-            currentPosition.moveLowerRight();
-        } else if (currentPosition.getY() == minHeight && currentPosition.getX() < middle) {
-            currentPosition.moveRight();
-        } else if (currentPosition.getY() >= middle && currentPosition.getY() < maxHeight && currentPosition.getX() > middle && currentPosition.getX() <= maxWidth) {
-            if (currentPosition.getX() == maxWidth && currentPosition.getY() == middle) --maxWidth;
-            currentPosition.moveLowerLeft();
-        } else if (currentPosition.getY() > middle && currentPosition.getY() <= maxHeight && currentPosition.getX() > minWidth && currentPosition.getX() <= middle) { //might need th change to <= middle
-            if (currentPosition.getY() == maxHeight && currentPosition.getX() == middle) --maxHeight;
-            currentPosition.moveUpperLeft();
-        } else if (currentPosition.getY() > minHeight && currentPosition.getY() <= middle && currentPosition.getX() >= minWidth && currentPosition.getX() < middle) {
-            if (currentPosition.getX() == minWidth && currentPosition.getY() == middle) ++minWidth;
-            currentPosition.moveUpperRight();
-        }
-        return new Position(currentPosition.getX(), currentPosition.getY());
     }
 
     private Position moveEven(Position currentPosition) {
@@ -136,38 +116,98 @@ public class Board {
         return new Position(currentPosition.getX(), currentPosition.getY());
     }
 
-    public void setDiamonds(List<Integer> diamonds) {
-        diamondPositions = diamonds;
+    private Position moveOdd(Position currentPosition) {
+        int middle = boardSize / 2;
+        if (currentPosition.getY() >= minHeight && currentPosition.getY() < middle && currentPosition.getX() >= middle && currentPosition.getX() < maxWidth) {
+            if (currentPosition.getY() == minHeight && currentPosition.getX() == middle) ++minHeight;
+            currentPosition.moveLowerRight();
+        } else if (currentPosition.getY() == minHeight && currentPosition.getX() < middle) {
+            currentPosition.moveRight();
+        } else if (currentPosition.getY() >= middle && currentPosition.getY() < maxHeight && currentPosition.getX() > middle && currentPosition.getX() <= maxWidth) {
+            if (currentPosition.getX() == maxWidth && currentPosition.getY() == middle) --maxWidth;
+            currentPosition.moveLowerLeft();
+        } else if (currentPosition.getY() > middle && currentPosition.getY() <= maxHeight && currentPosition.getX() > minWidth && currentPosition.getX() <= middle) { //might need th change to <= middle
+            if (currentPosition.getY() == maxHeight && currentPosition.getX() == middle) --maxHeight;
+            currentPosition.moveUpperLeft();
+        } else if (currentPosition.getY() > minHeight && currentPosition.getY() <= middle && currentPosition.getX() >= minWidth && currentPosition.getX() < middle) {
+            if (currentPosition.getX() == minWidth && currentPosition.getY() == middle) ++minWidth;
+            currentPosition.moveUpperRight();
+        }
+        return new Position(currentPosition.getX(), currentPosition.getY());
+    }
+
+    public int getBoardSize() {
+        return boardSize;
+    }
+
+    public List<Integer> getDiamondPositions() {
+        return diamondPositions;
+    }
+
+    public List<Position> getValidPositions() {
+        return validPositions;
+    }
+
+    public List<Integer> getHolePositions() {
+        return holePositions;
+    }
+
+    public List<Integer> getPlayerPositions() {
+        return playerPositions;
+    }
+
+    public void setPlayerPositions(List<Integer> playerPositions) {
+        this.playerPositions = playerPositions;
+    }
+
+    public synchronized void setDiamondPositions() {
+        diamondPositions = new ArrayList<>();
+        for (int i = 0; i < random.nextInt(boardSize - 2) + 2; ) {
+            int index = random.nextInt(validPositions.size() - 1);
+            if (!diamondPositions.contains(index)) {
+                diamondPositions.add(index);
+                ++i;
+            }
+        }
     }
 
 
     public synchronized void setHoles() {
         holePositions = new ArrayList<>();
-        for (int i = 0; i < HOLE_COUNT; ++i) {
-            holePositions.add(new Random().nextInt(validPositions.size()));
+        for (int i = 0; i < random.nextInt(holeCount) + 4; ++i) {
+            holePositions.add(random.nextInt(validPositions.size()));
         }
     }
 
-    public GameObject getObjectAtPosition(int position){
+    public synchronized void removeHoles() {
+        holePositions = new ArrayList<>();
+    }
+
+    public GameObject getObjectAtPosition(int position) {
         try {
-            if(position >= 0 && position <= finalPosition){
-                if(playerPositions.contains(position)){
+            if (position >= 0 && position < finalPosition) {
+                if (holePositions.contains(position)) {
+                    return GameObject.HOLE;
+                } else if (playerPositions.contains(position)) {
                     return GameObject.FIGURE;
                 } else if (diamondPositions.contains(position)) {
                     return GameObject.COIN;
-                } else if (holePositions.contains(position)) {
-                    return GameObject.HOLE;
-                }else{
+                } else {
                     return GameObject.EMPTY;
                 }
-            }else{
-                throw new IndexOutOfBoundsException("Position not valid");
+            } else {
+                throw new IndexOutOfBoundsException("Position not valid  " + position);
             }
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
         }
-        return null;
+        return GameObject.EMPTY;
     }
 
+    public synchronized void pickDiamond(int position) {
+        if (diamondPositions.contains(position)) {
+            diamondPositions.remove((Integer) position);
+        }
+    }
 
 }

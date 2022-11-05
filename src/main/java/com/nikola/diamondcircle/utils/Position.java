@@ -1,4 +1,5 @@
 package com.nikola.diamondcircle.utils;
+
 public class Position {
     private int x;
     private int y;
@@ -24,45 +25,40 @@ public class Position {
         this.y = y;
     }
 
-    public void moveRight(){
+    public void moveUpperRight() {
+        moveRight();
+        moveUp();
+    }
+
+    public void moveRight() {
         x++;
     }
-    public void moveLeft(){--x;}
-    public void moveUp(){
+
+    public void moveUp() {
         --y;
     }
-    public void moveDown(){
+
+    public void moveLowerRight() {
+        moveDown();
+        moveRight();
+    }
+
+    public void moveDown() {
         ++y;
     }
-    public  void  moveUpperRight(){
-        moveRight();
-        moveUp();
-    }
-    public  void moveLowerRight(){
-        moveDown();
-        moveRight();
-    }
-    public void moveUpperLeft(){
+
+    public void moveUpperLeft() {
         moveLeft();
         moveUp();
     }
 
-    public void moveLowerLeft(){
+    public void moveLeft() {
+        --x;
+    }
+
+    public void moveLowerLeft() {
         moveLeft();
         moveDown();
-    }
-
-    @Override
-    public String toString() {
-        return "(" + x + "," + y + ")";
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Position) {
-            return ((Position) obj).x == this.x && ((Position) obj).y == this.y;
-        }
-        return false;
     }
 
     @Override
@@ -71,6 +67,19 @@ public class Position {
         hash = 3 * hash + x;
         hash = 5 * hash + y;
         return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Position pos) {
+            return pos.x == this.x && pos.y == this.y;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + "," + y + ")";
     }
 
 }

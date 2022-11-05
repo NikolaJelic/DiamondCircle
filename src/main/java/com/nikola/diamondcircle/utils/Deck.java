@@ -7,20 +7,20 @@ import java.util.List;
 public class Deck {
     private List<Card> deck;
 
-    Deck(){
+    public Deck() {
         loadCards();
     }
 
-    public Card getCard(){
-        var ret = deck.get(deck.size()-1);
-        deck.remove(deck.size()-1);
+    public Card getCard() {
+        var ret = deck.get(deck.size() - 1);
+        deck.remove(deck.size() - 1);
         deck.add(0, ret);
         return ret;
     }
 
-    private void loadCards(){
+    private void loadCards() {
         deck = new ArrayList<>();
-        for (int i = 0; i < 10; ++i){
+        for (int i = 0; i < 10; ++i) {
             deck.add(Card.ONE);
             deck.add(Card.TWO);
             deck.add(Card.THREE);
@@ -30,5 +30,6 @@ public class Deck {
         deck.add(Card.SPECIAL);
         deck.add(Card.SPECIAL);
         Collections.shuffle(deck);
+
     }
 }

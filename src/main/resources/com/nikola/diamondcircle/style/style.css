@@ -1,0 +1,44 @@
+@font-face {
+    src: url('../assets/fonts/monogram.ttf');
+}
+
+.root {
+    -fx-font-family: monogram;
+    -fx-font-size: 25;
+    -fx-background-color: #FDF3E7;
+}
+
+
+.button{
+    -fx-background-color: #FDF3E7;
+    -fx-font-size: 30;
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.bigButton{
+    -fx-background-image: url('bigButton.png');
+}
+
+.smallButton{
+    -fx-background-image: url('smallButton.png');
+
+}
+
+.startButton{
+    -fx-background-image: url('startButton.png');
+    -fx-font-size: 22;
+    -fx-background-size: contain;
+}
+
+
+.list-view{
+    -fx-font-family: monogram;
+    -fx-font-size: 25;
+    -fx-background-color: #FDF3E7;
+}
+.list-cell{
+    -fx-font-family: monogram;
+    -fx-font-size: 27;
+    -fx-background-color: #FDF3E7;
+}

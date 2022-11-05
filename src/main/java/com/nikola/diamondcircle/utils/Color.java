@@ -1,7 +1,6 @@
 package com.nikola.diamondcircle.utils;
 
 public enum Color {
-
         RED("#e43b44"),
         GREEN("#63c74d"),
         BLUE("#0099db"),
