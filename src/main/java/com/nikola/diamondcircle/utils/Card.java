@@ -21,7 +21,7 @@ public enum Card {
     }
 
     public String getCard() {
-        return  pathPrefix + card;
+        return pathPrefix + card;
     }
 
     public int getStep() {

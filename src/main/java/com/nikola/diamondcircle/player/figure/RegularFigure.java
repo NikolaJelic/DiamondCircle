@@ -3,8 +3,6 @@ package com.nikola.diamondcircle.player.figure;
 import com.nikola.diamondcircle.game.GameObject;
 import com.nikola.diamondcircle.utils.Color;
 
-import static java.lang.Thread.sleep;
-
 public class RegularFigure extends Figure {
 
     public RegularFigure(Integer maxPosition, Color color) {

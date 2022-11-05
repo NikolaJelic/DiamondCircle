@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Random;
 
 public class ColorFactory {
+    private static final List<Color> possibleColors = new ArrayList<>(List.of(new Color[]{Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW}));
 
-    private ColorFactory(){}
-
-    private static List<Color> possibleColors = new ArrayList<>(List.of(new Color[]{Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW}));
+    private ColorFactory() {
+    }
 
     public static Color getColor() {
         Random random = new Random();

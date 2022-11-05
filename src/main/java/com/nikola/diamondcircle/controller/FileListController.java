@@ -14,7 +14,6 @@ import java.io.File;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FileListController {
@@ -27,7 +26,7 @@ public class FileListController {
     public FileListController() {
         File destFolder = new File(destinationFolder);
         if (destFolder.isDirectory()) {
-            fileNames = Stream.of(Objects.requireNonNull(destFolder.listFiles())).filter(File::isFile).map(File::getName).collect(Collectors.toList());
+            fileNames = Stream.of(Objects.requireNonNull(destFolder.listFiles())).filter(File::isFile).map(File::getName).toList();
         }
     }
 

@@ -20,6 +20,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -32,6 +33,7 @@ import static javafx.scene.paint.Color.web;
 
 public class GameController {
     private final Game game;
+    private final Ghost ghost;
     @FXML
     public Label gameCountLabel;
     @FXML
@@ -48,8 +50,8 @@ public class GameController {
     public ImageView currentCard;
     @FXML
     public GridPane board;
-
-    private Ghost ghost;
+    @FXML
+    public Label title;
 
 
     public GameController(Game game) {
@@ -61,6 +63,8 @@ public class GameController {
     @FXML
     public void initialize() {
         try {
+            Font titleFont = Font.loadFont(String.valueOf(StartController.class.getResource("/com/nikola/diamondcircle/assets/fonts/DungeonFont.ttf")), 35);
+            title.setFont(titleFont);
             gameCountLabel.setText(countGames().toString());
             drawPlayers();
             drawCard(Card.BACK);
@@ -112,6 +116,7 @@ public class GameController {
         for (int i = 0; i < Board.finalPosition; ++i) {
             GameObject object = game.board.getObjectAtPosition(i);
             if (object != GameObject.FIGURE) {
+
                 ImageView sprite = new ImageView(object.getTexture());
                 var pos = game.board.getValidPositions().get(i);
                 board.add(sprite, pos.getX(), pos.getY(), 1, 1);
@@ -139,7 +144,7 @@ public class GameController {
     @FXML
     public void changeRunState(ActionEvent actionEvent) {
         GameRunner.changeState();
-        ghost.changeState();
+        Ghost.changeState();
         if (pauseButton.getText().equals("Pause")) {
             pauseButton.setText("Resume");
         } else {
@@ -172,7 +177,7 @@ public class GameController {
     }
 
     @FXML
-    public void ListGames(ActionEvent actionEvent) {
+    public void listGames(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/nikola/diamondcircle/views/fileLister.fxml"));
             Parent root = loader.load();

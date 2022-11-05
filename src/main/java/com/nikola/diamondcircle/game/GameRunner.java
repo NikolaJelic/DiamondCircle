@@ -70,11 +70,27 @@ public class GameRunner extends Thread {
 
                 //pick card and check holes
                 game.pickCard();
-                if (game.getCurrentCard() != Card.SPECIAL) {
+                Platform.runLater(() -> gameController.drawCard(game.getCurrentCard()));
+
+                if (game.getCurrentCard() == Card.SPECIAL) {
+
+                    game.board.setHoles();
+
+                    for (Player player : game.players) {
+                        player.getCurrentFigure().interact(game.board.getObjectAtPosition(player.getCurrentFigure().getCurrentPosition()));
+                        player.useNextFigure();
+                    }
+
                     Platform.runLater(() -> {
-                        gameController.drawCard(game.getCurrentCard());
                         gameController.drawBoard();
+                        gameController.cardDescription.setText("Special card, spawns random holes.");
                     });
+                    sleep(1000);
+                    game.getCurrentPlayer().useNextFigure();
+                    game.board.removeHoles();
+
+                } else {
+                    Platform.runLater(() -> gameController.drawBoard());
 
                     //move player
                     Player currentPlayer = game.getCurrentPlayer();
@@ -100,11 +116,12 @@ public class GameRunner extends Thread {
                         game.makeMove(currentPlayer);
                         game.board.pickDiamond(currentPlayer.getCurrentFigure().getCurrentPosition());
                         updatePlayerPositions();
-                        Platform.runLater(() -> gameController.drawBoard());
 
                         currentPlayer.getCurrentFigure().addVisitedField(currentPlayer.getCurrentFigure().getCurrentPosition());
                         currentPlayer.useNextFigure();
-                        sleep(500);
+                        Platform.runLater(() -> gameController.drawBoard());
+
+                        sleep(1000);
 
                     }
                     currentPlayer.useNextFigure();

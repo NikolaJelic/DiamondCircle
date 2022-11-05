@@ -3,17 +3,16 @@ package com.nikola.diamondcircle.player.figure;
 import com.nikola.diamondcircle.game.GameObject;
 import com.nikola.diamondcircle.utils.Color;
 
-import static java.lang.Thread.sleep;
-
-public class FlyingFigure extends Figure{
-    @Override
-    public String getTexturePath() {
-        return getPathPrefix()+ "flying.png";
-    }
-
-    public FlyingFigure(Integer maxPosition, Color color){
+public class FlyingFigure extends Figure {
+    public FlyingFigure(Integer maxPosition, Color color) {
         super(maxPosition, color);
     }
+
+    @Override
+    public String getTexturePath() {
+        return getPathPrefix() + "flying.png";
+    }
+
     @Override
     public Integer getDistance(Integer steps) {
         return diamondCount + steps;
@@ -21,8 +20,8 @@ public class FlyingFigure extends Figure{
 
     @Override
     public void interact(GameObject gameObject) {
-        switch (gameObject){
-            case COIN -> diamondCount++;
+        if (gameObject == GameObject.COIN) {
+            diamondCount++;
         }
     }
 

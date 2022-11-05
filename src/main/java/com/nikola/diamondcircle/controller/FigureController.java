@@ -12,7 +12,6 @@ import java.util.List;
 public class FigureController {
     List<Integer> visited;
     List<Position> validPositions;
-
     @FXML
     GridPane travelledPath;
 

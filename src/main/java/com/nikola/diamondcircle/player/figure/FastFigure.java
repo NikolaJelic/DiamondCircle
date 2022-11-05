@@ -3,8 +3,6 @@ package com.nikola.diamondcircle.player.figure;
 import com.nikola.diamondcircle.game.GameObject;
 import com.nikola.diamondcircle.utils.Color;
 
-import static java.lang.Thread.sleep;
-
 public class FastFigure extends Figure {
 
     public FastFigure(Integer maxPosition, Color color) {
@@ -28,7 +26,6 @@ public class FastFigure extends Figure {
             case COIN -> diamondCount++;
         }
     }
-
 
 
     @Override

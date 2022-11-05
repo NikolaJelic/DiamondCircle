@@ -3,6 +3,7 @@ package com.nikola.diamondcircle.controller;
 import com.nikola.diamondcircle.DiamondCircle;
 import com.nikola.diamondcircle.game.Game;
 import com.nikola.diamondcircle.game.GameRunner;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -86,6 +87,10 @@ public class StartController {
             stage.setResizable(false);
             stage.show();
             gameRunner.start();
+            stage.setOnCloseRequest(e -> {
+                Platform.exit();
+                System.exit(0);
+            });
             ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
         } catch (Exception e) {
             DiamondCircle.logger.log(Level.SEVERE, e.fillInStackTrace().toString());

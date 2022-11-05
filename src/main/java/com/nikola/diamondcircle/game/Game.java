@@ -32,14 +32,6 @@ public class Game {
 
     public void pickCard() {
         currentCard = cards.getCard();
-        if (currentCard == Card.SPECIAL) {
-            board.setHoles();
-            for (Player player : players) {
-                player.getCurrentFigure().interact(board.getObjectAtPosition(player.getCurrentFigure().getCurrentPosition()));
-                player.useNextFigure();
-            }
-            board.removeHoles();
-        }
     }
 
     public void makeMove(Player currentPlayer) {
@@ -53,10 +45,10 @@ public class Game {
 
     public Player getCurrentPlayer() {
         Player ret = players.get(currentPlayerIndex % players.size());
-        while (ret.isFinished()){
+        while (ret.isFinished()) {
             ret = players.get(++currentPlayerIndex % players.size());
         }
-return ret;
+        return ret;
     }
 
     public void nextPlayer() {

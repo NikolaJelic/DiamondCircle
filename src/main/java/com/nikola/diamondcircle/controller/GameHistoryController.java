@@ -3,13 +3,11 @@ package com.nikola.diamondcircle.controller;
 import com.nikola.diamondcircle.DiamondCircle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 
 import java.io.*;
 import java.util.logging.Level;
 
 public class GameHistoryController {
-    private String text;
     @FXML
     private Label textField;
     private final String filePath;
@@ -20,7 +18,6 @@ public class GameHistoryController {
 
     @FXML
     public void initialize() {
-        File file = new File(filePath);
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             var text = reader.lines();
             StringBuilder gameLog = new StringBuilder();

@@ -174,7 +174,7 @@ public class Board {
 
     public synchronized void setHoles() {
         holePositions = new ArrayList<>();
-        for (int i = 0; i < random.nextInt(holeCount); ++i) {
+        for (int i = 0; i < random.nextInt(holeCount) + 4; ++i) {
             holePositions.add(random.nextInt(validPositions.size()));
         }
     }
@@ -186,12 +186,12 @@ public class Board {
     public GameObject getObjectAtPosition(int position) {
         try {
             if (position >= 0 && position < finalPosition) {
-                if (playerPositions.contains(position)) {
+                if (holePositions.contains(position)) {
+                    return GameObject.HOLE;
+                } else if (playerPositions.contains(position)) {
                     return GameObject.FIGURE;
                 } else if (diamondPositions.contains(position)) {
                     return GameObject.COIN;
-                } else if (holePositions.contains(position)) {
-                    return GameObject.HOLE;
                 } else {
                     return GameObject.EMPTY;
                 }
@@ -204,7 +204,7 @@ public class Board {
         return GameObject.EMPTY;
     }
 
-    public void pickDiamond(int position) {
+    public synchronized void pickDiamond(int position) {
         if (diamondPositions.contains(position)) {
             diamondPositions.remove((Integer) position);
         }
