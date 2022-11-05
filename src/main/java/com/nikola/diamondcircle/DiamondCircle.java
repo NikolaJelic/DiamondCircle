@@ -36,6 +36,7 @@ public class DiamondCircle extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         GameRunner gameRunner = new GameRunner();
+
         FXMLLoader fxmlLoader = new FXMLLoader(DiamondCircle.class.getResource("/com/nikola/diamondcircle/views/start.fxml"));
         Parent root = fxmlLoader.load();
         primaryStage.setTitle("DiamondCircle");

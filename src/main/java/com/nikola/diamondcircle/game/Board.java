@@ -1,7 +1,6 @@
 package com.nikola.diamondcircle.game;
 
 import com.nikola.diamondcircle.DiamondCircle;
-import com.nikola.diamondcircle.player.Player;
 import com.nikola.diamondcircle.utils.Position;
 
 import java.util.ArrayList;
@@ -163,8 +162,12 @@ public class Board {
 
     public synchronized void setDiamondPositions() {
         diamondPositions = new ArrayList<>();
-        for (int i = 0; i < random.nextInt(boardSize - 2) + 2; ++i) {
-            diamondPositions.add(random.nextInt(validPositions.size() - 1));
+        for (int i = 0; i < random.nextInt(boardSize - 2) + 2; ) {
+            int index = random.nextInt(validPositions.size() - 1);
+            if (!diamondPositions.contains(index)) {
+                diamondPositions.add(index);
+                ++i;
+            }
         }
     }
 
@@ -203,8 +206,7 @@ public class Board {
 
     public void pickDiamond(int position) {
         if (diamondPositions.contains(position)) {
-            int index = diamondPositions.indexOf(position);
-            diamondPositions.remove(index);
+            diamondPositions.remove((Integer) position);
         }
     }
 

@@ -58,7 +58,6 @@ public class GameController {
         ghost.start();
     }
 
-
     @FXML
     public void initialize() {
         try {

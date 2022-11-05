@@ -61,13 +61,13 @@ public class StartController {
 
         } catch (Exception e) {
             DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
-
         }
     }
 
     public void startGame(ActionEvent actionEvent) {
+
         size = Integer.valueOf(sizeInput.getText());
-        if (!playerNames.isEmpty() && playerNames.size() <= 4 && size >= 7 && size <= 10) {
+        if (playerNames.size() >= 2 && playerNames.size() <= 4 && size >= 7 && size <= 10) {
             canStart = true;
         }
         try {

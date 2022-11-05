@@ -64,9 +64,9 @@ public abstract class Figure {
     public abstract Integer getDistance(Integer steps);
 
     public void move() {
-        if (currentPosition < maxPosition -1) {
+        if (currentPosition < maxPosition - 1) {
             ++currentPosition;
-        }else{
+        } else {
             setFinished(true);
 
         }
@@ -75,7 +75,9 @@ public abstract class Figure {
     public abstract void interact(GameObject gameObject);
 
     public void addVisitedField(Integer position) {
-        visitedPositions.add(position);
+        if (!visitedPositions.contains(position)) {
+            visitedPositions.add(position);
+        }
     }
 
     public String getFigureName() {
@@ -84,7 +86,7 @@ public abstract class Figure {
 
     @Override
     public String toString() {
-        return "Figure " + figureName + "[" + getType() + ',' + color + "] | travelled path " + visitedPositions + " finished " + finished;
+        return "Figure " + figureName + "[" + getType() + ',' + color + "] | travelled path: " + visitedPositions + " finished: " + finished + " move time: " + visitedPositions.size();
     }
 
     protected abstract String getType();

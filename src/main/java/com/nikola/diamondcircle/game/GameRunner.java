@@ -6,12 +6,13 @@ import com.nikola.diamondcircle.player.Player;
 import com.nikola.diamondcircle.utils.Card;
 import javafx.application.Platform;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -89,31 +90,27 @@ public class GameRunner extends Thread {
                     }
 
                     int finalEndPosition = endPosition;
-                    Platform.runLater(() -> {
-                        gameController.updateMessage(game.generateMoveMessage(currentPlayer, finalEndPosition));
-                    });
+                    Platform.runLater(() -> gameController.updateMessage(game.generateMoveMessage(currentPlayer, finalEndPosition)));
 
                     for (int i = 0; i < endPosition; ++i) {
                         awaitCondition();
                         elapsedTime = pauseOffset + (System.nanoTime() - startTIme) / 1000000000;
-                        Platform.runLater(() -> {
-                            gameController.updateTimer(elapsedTime.toString());
-                        });
+                        Platform.runLater(() -> gameController.updateTimer(elapsedTime.toString()));
 
                         game.makeMove(currentPlayer);
                         game.board.pickDiamond(currentPlayer.getCurrentFigure().getCurrentPosition());
                         updatePlayerPositions();
                         Platform.runLater(() -> gameController.drawBoard());
-                        sleep(100);
+
                         currentPlayer.getCurrentFigure().addVisitedField(currentPlayer.getCurrentFigure().getCurrentPosition());
+                        currentPlayer.useNextFigure();
+                        sleep(500);
 
                     }
-                    game.nextPlayer();
                     currentPlayer.useNextFigure();
+                    game.nextPlayer();
 
                 }
-
-
             } catch (Exception e) {
                 DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
             }
@@ -143,13 +140,14 @@ public class GameRunner extends Thread {
     public void writeFile() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
         LocalDateTime now = LocalDateTime.now();
-        String name = dtf.format(now) + ".txt";
+        String name = "IGRA_" + dtf.format(now) + ".txt";
         String prefix = "data" + File.separator + "games" + File.separator;
         File file = new File(prefix + name);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             for (Player player : game.players) {
                 writer.write(player.toString());
             }
+            writer.write("Game duration: " + elapsedTime.toString());
         } catch (IOException e) {
             DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
         }

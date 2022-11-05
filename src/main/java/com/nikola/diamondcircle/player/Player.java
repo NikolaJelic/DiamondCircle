@@ -78,7 +78,7 @@ public class Player {
     @Override
     public String toString() {
         StringBuilder player = new StringBuilder("Player " + name + " [" + color + "] " + '\n');
-        for(var figure : figures){
+        for(Figure figure : figures){
             player.append(figure.toString()).append('\n');
         }
         return player.toString();

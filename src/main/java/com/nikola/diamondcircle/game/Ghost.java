@@ -5,50 +5,50 @@ import com.nikola.diamondcircle.DiamondCircle;
 import java.util.logging.Level;
 
 public class Ghost extends Thread {
-    private  static final Object ghostLock = new Object();
-    private static boolean isRunning;
+    private static final Object pauseLock = new Object();
+    private static boolean isRunning = true;
     private final Game game;
 
+
     public Ghost(Game game) {
-        this.game  = game;
-        isRunning = true;
+        this.game = game;
     }
+
+    public static void changeState() {
+        synchronized (pauseLock) {
+            if (isRunning) {
+                isRunning = false;
+            } else {
+                isRunning = true;
+                pauseLock.notifyAll();
+            }
+        }
+    }
+
 
     @Override
     public void run() {
-        synchronized (ghostLock) {
-            while (!game.isGameOver()) {
-                try {
-                    awaitCondition();
-                    game.board.setDiamondPositions();
 
-                    sleep(5000);
+        while (!game.isGameOver()) {
+            try {
+                awaitCondition();
+                game.board.setDiamondPositions();
+                sleep(5000);
 
-                } catch (InterruptedException e) {
-                    DiamondCircle.logger.log(Level.SEVERE, "INTERRUPTED!", e.fillInStackTrace().toString());
-                    Thread.currentThread().interrupt();
-                }
+            } catch (Exception e) {
+                DiamondCircle.logger.log(Level.WARNING, e.fillInStackTrace().toString());
             }
         }
 
     }
 
     private void awaitCondition() throws InterruptedException {
-        synchronized (ghostLock) {
+        synchronized (pauseLock) {
             while (!isRunning) {
-                ghostLock.wait();
+                pauseLock.wait();
             }
         }
     }
 
-    public static void changeState() {
-        synchronized (ghostLock) {
-            if (isRunning) {
-                isRunning = false;
-            } else {
-                isRunning = true;
-                ghostLock.notifyAll();
-            }
-        }
-    }
+
 }
