@@ -5,6 +5,7 @@ import com.nikola.diamondcircle.player.Player;
 import com.nikola.diamondcircle.utils.Card;
 import com.nikola.diamondcircle.utils.ColorFactory;
 import com.nikola.diamondcircle.utils.Deck;
+import com.nikola.diamondcircle.utils.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class Game {
         cards = new Deck();
         board = new Board(boardSize);
         for (String name : playerNames) {
-            players.add(new Player(ColorFactory.getColor(), name));
+            players.add(new Player(ColorFactory.getColor(), name, board.getValidPositions()));
         }
     }
 
@@ -65,7 +66,9 @@ public class Game {
     }
 
     public String generateMoveMessage(Player player, Integer step) {
-        return "Player " + player.getName() + ", figure " + player.getCurrentFigure().getFigureName() + " moves for " + step + " fields, from position " + player.getCurrentFigure().getCurrentPosition() + " to " + (player.getCurrentFigure().getCurrentPosition() + step) + ".";
+        int positionWithStep = player.getCurrentFigure().getCurrentPosition() + step;
+        Position finalPos = (positionWithStep < board.getValidPositions().size()) ? board.getValidPositions().get(positionWithStep)  : board.getValidPositions().get(board.getValidPositions().size() -1);
+        return "Player " + player.getName() + ", figure " + player.getCurrentFigure().getFigureName() + " moves for " + step + " fields, from position " + board.getValidPositions().get(player.getCurrentFigure().getCurrentPosition()) + " to " + finalPos + ".";
     }
 
     public Card getCurrentCard() {

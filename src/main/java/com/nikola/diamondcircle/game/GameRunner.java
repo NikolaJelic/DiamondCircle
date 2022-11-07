@@ -77,8 +77,10 @@ public class GameRunner extends Thread {
                     game.board.setHoles();
 
                     for (Player player : game.players) {
-                        player.getCurrentFigure().interact(game.board.getObjectAtPosition(player.getCurrentFigure().getCurrentPosition()));
-                        player.useNextFigure();
+                        if (!player.isFinished()) {
+                            player.getCurrentFigure().interact(game.board.getObjectAtPosition(player.getCurrentFigure().getCurrentPosition()));
+                            player.useNextFigure();
+                        }
                     }
 
                     Platform.runLater(() -> {
@@ -121,7 +123,7 @@ public class GameRunner extends Thread {
                         currentPlayer.useNextFigure();
                         Platform.runLater(() -> gameController.drawBoard());
 
-                        sleep(1000);
+                        sleep(100);
 
                     }
                     currentPlayer.useNextFigure();
