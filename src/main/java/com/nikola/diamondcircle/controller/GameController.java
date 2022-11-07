@@ -123,17 +123,27 @@ public class GameController {
             }
         }
         for (var player : game.players) {
+            Position pos = game.board.getValidPositions().get(player.getCurrentFigure().getCurrentPosition());
+            ImageView sprite;
+
             if (!player.isFinished()) {
-                Position pos = game.board.getValidPositions().get(player.getCurrentFigure().getCurrentPosition());
                 Color figureColor = web(player.getColor().getColorValue());
                 Lighting lightingEffect = new Lighting(new Light.Distant(40, 100, figureColor));
                 Figure figure = player.getCurrentFigure();
                 if (figure.isAlive() && !figure.isFinished()) {
-                    ImageView sprite = new ImageView(player.getCurrentFigure().getTexturePath());
+                    sprite = new ImageView(player.getCurrentFigure().getTexturePath());
                     sprite.setEffect(lightingEffect);
-                    board.add(sprite, pos.getX(), pos.getY(), 1, 1);
+                } else {
+                    sprite = new ImageView(GameObject.EMPTY.getTexture());
                 }
+
+                board.add(sprite, pos.getX(), pos.getY(), 1, 1);
+            }else {
+                sprite = new ImageView(GameObject.EMPTY.getTexture());
+                board.add(sprite, pos.getX(), pos.getY(), 1, 1);
+
             }
+
         }
     }
 
