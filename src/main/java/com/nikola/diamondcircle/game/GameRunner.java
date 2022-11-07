@@ -123,7 +123,7 @@ public class GameRunner extends Thread {
                         currentPlayer.useNextFigure();
                         Platform.runLater(() -> gameController.drawBoard());
 
-                        sleep(100);
+                        sleep(1000);
 
                     }
                     currentPlayer.useNextFigure();

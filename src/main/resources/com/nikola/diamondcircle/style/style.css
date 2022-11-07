@@ -42,3 +42,10 @@
     -fx-font-size: 27;
     -fx-background-color: #FDF3E7;
 }
+
+.button:hover {
+    -fx-background-color: #fae1c3;
+}
+.button:pressed{
+    -fx-background-color: #f7d1a4;
+}
