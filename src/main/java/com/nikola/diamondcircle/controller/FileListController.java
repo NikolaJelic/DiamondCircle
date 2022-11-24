@@ -20,7 +20,6 @@ public class FileListController {
     private final String destinationFolder = "data" + File.separator + "games" + File.separator;
     @FXML
     public ListView<Label> fileList;
-    private String selectedFileName;
     private List<String> fileNames;
 
     public FileListController() {
@@ -39,7 +38,7 @@ public class FileListController {
 
     @FXML
     public void openFile(MouseEvent mouseEvent) {
-        selectedFileName = fileList.getSelectionModel().getSelectedItem().getText();
+        String selectedFileName = fileList.getSelectionModel().getSelectedItem().getText();
         try {
             //Init controller
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/nikola/diamondcircle/views/gameHistory.fxml"));
@@ -56,8 +55,6 @@ public class FileListController {
         } catch (Exception e) {
             DiamondCircle.logger.log(Level.SEVERE, e.fillInStackTrace().toString());
         }
-
-        // Make GameHistoryController and pass the file
 
     }
 }

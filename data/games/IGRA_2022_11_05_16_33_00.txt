@@ -1,0 +1,21 @@
+Player a [YELLOW] 
+Figure 1[regular,YELLOW] | travelled path: [0] finished: false move time: 1
+Figure 2[regular,YELLOW] | travelled path: [0, 1, 2, 3, 4, 5, 6] finished: false move time: 7
+Figure 3[flying,YELLOW] | travelled path: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59] finished: true move time: 60
+Figure 4[fast,YELLOW] | travelled path: [0, 1, 2, 3, 4, 5, 6, 7, 8] finished: false move time: 9
+Player s [RED] 
+Figure 5[flying,RED] | travelled path: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59] finished: true move time: 60
+Figure 6[regular,RED] | travelled path: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41] finished: false move time: 42
+Figure 7[regular,RED] | travelled path: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22] finished: false move time: 23
+Figure 8[fast,RED] | travelled path: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] finished: false move time: 10
+Player f [GREEN] 
+Figure 9[regular,GREEN] | travelled path: [0] finished: false move time: 1
+Figure 10[fast,GREEN] | travelled path: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] finished: false move time: 17
+Figure 11[flying,GREEN] | travelled path: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59] finished: true move time: 60
+Figure 12[fast,GREEN] | travelled path: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] finished: false move time: 15
+Player g [BLUE] 
+Figure 13[regular,BLUE] | travelled path: [0] finished: false move time: 1
+Figure 14[fast,BLUE] | travelled path: [0, 1, 2, 3, 4, 5, 6, 7, 8] finished: false move time: 9
+Figure 15[flying,BLUE] | travelled path: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59] finished: true move time: 60
+Figure 16[regular,BLUE] | travelled path: [0, 1] finished: false move time: 2
+Game duration: 49

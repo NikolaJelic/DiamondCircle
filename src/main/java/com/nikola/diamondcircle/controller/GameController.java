@@ -85,7 +85,7 @@ public class GameController {
 
     public void drawCard(Card card) {
         try {
-            Image cardImage = new Image(card.getCard());
+            Image cardImage = new Image(card.getCardTexturePath());
             currentCard.setImage(cardImage);
             currentCard.setFitHeight(240);
             currentCard.setPreserveRatio(true);

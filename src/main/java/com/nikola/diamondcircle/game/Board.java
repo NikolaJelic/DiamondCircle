@@ -162,7 +162,8 @@ public class Board {
 
     public synchronized void setDiamondPositions() {
         diamondPositions = new ArrayList<>();
-        for (int i = 0; i < random.nextInt(boardSize - 2) + 2; ) {
+        int i = 0;
+        while ( i < random.nextInt(boardSize - 2) + 2 ) {
             int index = random.nextInt(validPositions.size() - 1);
             if (!diamondPositions.contains(index)) {
                 diamondPositions.add(index);

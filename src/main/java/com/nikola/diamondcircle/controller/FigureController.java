@@ -22,12 +22,14 @@ public class FigureController {
 
     @FXML
     public void initialize() {
-        for (Integer pos : visited) {
-            Position visitedPosition = validPositions.get(pos);
-            ImageView sprite = new ImageView(GameObject.VISITED.getTexture());
-            travelledPath.add(sprite, visitedPosition.getX(), visitedPosition.getY(), 1, 1);
-        }
-        travelledPath.centerShapeProperty();
+        if (visited.size() > 1) {
+            for (Integer pos : visited) {
+                Position visitedPosition = validPositions.get(pos);
+                ImageView sprite = new ImageView(GameObject.VISITED.getTexture());
+                travelledPath.add(sprite, visitedPosition.getX(), visitedPosition.getY(), 1, 1);
+            }
+            travelledPath.centerShapeProperty();
 
+        }
     }
 }

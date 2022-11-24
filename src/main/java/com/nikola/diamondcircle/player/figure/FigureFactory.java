@@ -5,8 +5,9 @@ import com.nikola.diamondcircle.utils.Color;
 import java.util.Random;
 
 public class FigureFactory {
+    private final Random random = new Random();
     public Figure getRandomFigure(Integer maxPosition, Color color) {
-        switch (new Random().nextInt(3)) {
+        switch (random.nextInt(3)) {
             case 0 -> {
                 return new RegularFigure(maxPosition, color);
             }

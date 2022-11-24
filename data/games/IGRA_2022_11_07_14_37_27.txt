@@ -1,0 +1,11 @@
+Player a [YELLOW] 
+Figure 1[regular,YELLOW]  finished: true move time: 25 | Travelled path: [(3,0), (4,1), (5,2), (6,3), (5,4), (4,5), (3,6), (2,5), (1,4), (0,3), (1,2), (2,1), (3,1), (4,2), (5,3), (4,4), (3,5), (2,4), (1,3), (2,2), (3,2), (4,3), (3,4), (2,3), (3,3)]
+Figure 2[flying,YELLOW]  finished: true move time: 25 | Travelled path: [(3,0), (4,1), (5,2), (6,3), (5,4), (4,5), (3,6), (2,5), (1,4), (0,3), (1,2), (2,1), (3,1), (4,2), (5,3), (4,4), (3,5), (2,4), (1,3), (2,2), (3,2), (4,3), (3,4), (2,3), (3,3)]
+Figure 3[regular,YELLOW]  finished: false move time: 12 | Travelled path: [(3,0), (4,1), (5,2), (6,3), (5,4), (4,5), (3,6), (2,5), (1,4), (0,3), (1,2), (2,1)]
+Figure 4[regular,YELLOW]  finished: false move time: 9 | Travelled path: [(3,0), (4,1), (5,2), (6,3), (5,4), (4,5), (3,6), (2,5), (1,4)]
+Player b [RED] 
+Figure 5[regular,RED]  finished: true move time: 25 | Travelled path: [(3,0), (4,1), (5,2), (6,3), (5,4), (4,5), (3,6), (2,5), (1,4), (0,3), (1,2), (2,1), (3,1), (4,2), (5,3), (4,4), (3,5), (2,4), (1,3), (2,2), (3,2), (4,3), (3,4), (2,3), (3,3)]
+Figure 6[fast,RED]  finished: false move time: 14 | Travelled path: [(3,0), (4,1), (5,2), (6,3), (5,4), (4,5), (3,6), (2,5), (1,4), (0,3), (1,2), (2,1), (3,1), (4,2)]
+Figure 7[regular,RED]  finished: true move time: 25 | Travelled path: [(3,0), (4,1), (5,2), (6,3), (5,4), (4,5), (3,6), (2,5), (1,4), (0,3), (1,2), (2,1), (3,1), (4,2), (5,3), (4,4), (3,5), (2,4), (1,3), (2,2), (3,2), (4,3), (3,4), (2,3), (3,3)]
+Figure 8[fast,RED]  finished: false move time: 5 | Travelled path: [(3,0), (4,1), (5,2), (6,3), (5,4)]
+Game duration: 26

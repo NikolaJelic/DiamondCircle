@@ -1,0 +1,15 @@
+Player a [RED] 
+Figure 1[flying,RED] | travelled path [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 39] finished true
+Figure 2[regular,RED] | travelled path [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] finished false
+Figure 3[flying,RED] | travelled path [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 39] finished true
+Figure 4[regular,RED] | travelled path [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] finished false
+Player b [YELLOW] 
+Figure 5[regular,YELLOW] | travelled path [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] finished false
+Figure 6[regular,YELLOW] | travelled path [0, 1, 2, 3, 4, 5] finished false
+Figure 7[regular,YELLOW] | travelled path [0, 1] finished false
+Figure 8[fast,YELLOW] | travelled path [0, 1, 2, 3, 4, 5, 6] finished false
+Player c [BLUE] 
+Figure 9[regular,BLUE] | travelled path [0] finished false
+Figure 10[regular,BLUE] | travelled path [0, 1, 2, 3, 4] finished false
+Figure 11[regular,BLUE] | travelled path [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23] finished false
+Figure 12[fast,BLUE] | travelled path [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18] finished false
